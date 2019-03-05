@@ -1,0 +1,37 @@
+body{
+    text-align: center;
+    /*text-shadow: 0.05 rem .1rem rgba(0,0,0,.5);*/
+    font-family: Poppins;
+    color: yellow;
+    height: 100%;
+    background-image: url('http://orig12.deviantart.net/53f9/f/2016/338/7/d/star_wars___death_star_wallpaper_by_rocklou-daqj3gl.png');
+    background-size: cover;
+    font-weight: 100;
+}
+
+h1{
+    margin: 100px;
+    font-size: 200px;
+    line-height: 100px;
+    font-weight: 100;
+}
+
+p{
+    margin: 0;
+    font-size: 30px;
+}
+
+.form{
+    line-height: 1.5;
+    border: none;
+    border-bottom: 3px solid #ebebeb;
+    
+    background: transparent;
+}
+
+input[type = text]:focus {
+    outline: none;
+}
+::-webkit-input-placeholder{
+    color: yellow;
+}
