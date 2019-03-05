@@ -1,11 +1,9 @@
 <link rel = "stylesheet" href = "/app.css">
 <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 <h1>JOIN US</h1>
-<p class = 'lead'> Enter your email to join <strong><%=data%></strong>
-others on our waitlist. </p>
-<p class = 'lead'> We are 100% not a cult. </p>
+<p class = 'lead'> There are <strong><%=data%></strong> employees already.</p>
 <form method = 'post' action='/register'>
-    <input type = "text" name = "Name" class = "form" placeholder = "enter name">
-    <input type = "text" name = "Address" class = "form" placeholder = "enter name">
+    <input type = "text" name = "Name" class = "form" placeholder = "first name">
+    <input type = "text" name = "Address" class = "form" placeholder = "last name">
     <button>Join Now</button>
 </form>

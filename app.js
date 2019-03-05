@@ -15,25 +15,25 @@ var connection = mysql.createConnection({
 })
 
 app.get("/", function(req, res){
-    res.send("new")
-    // var q = "select count(*) as count from sample";
-    // connection.query(q, function(err,results){
-    //     if (err) throw err;
-    //     var count = (results[0].count);
-    //     //res.send("We have " + count + " users in our database!")
-    //     res.render("home", {data: count});
-    // })
+    // res.send("new")
+    var q = "select count(*) as count from Employees";
+    connection.query(q, function(err,results){
+         if (err) throw err;
+         var count = (results[0].count);
+         // res.send("We have " + count + " users in our database!")
+         res.render("home", {data: count});
+    })
 });
 
 app.post("/register", function(req, res){
     var person = {name: req.body.Name, address: req.body.Address};
-    connection.query('insert into sample set ?', person, function(err, results){
+    connection.query('insert into Employees set ?', person, function(err, results){
         if (err) throw err;
         res.redirect("/");
     })
 })
 
-app.listen(8080, function(){
+app.listen(80, function(){
     console.log("Server running!")
 });
 

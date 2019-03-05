@@ -2,16 +2,16 @@ body{
     text-align: center;
     /*text-shadow: 0.05 rem .1rem rgba(0,0,0,.5);*/
     font-family: Poppins;
-    color: yellow;
+    color: black;
     height: 100%;
-    background-image: url('http://orig12.deviantart.net/53f9/f/2016/338/7/d/star_wars___death_star_wallpaper_by_rocklou-daqj3gl.png');
+    background-image: url('https://images.unsplash.com/photo-1522143350074-e1b4a185d42d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1156&q=80');
     background-size: cover;
     font-weight: 100;
 }
 
 h1{
     margin: 100px;
-    font-size: 200px;
+    font-size: 150px;
     line-height: 100px;
     font-weight: 100;
 }
@@ -33,5 +33,5 @@ input[type = text]:focus {
     outline: none;
 }
 ::-webkit-input-placeholder{
-    color: yellow;
+    color: grey;
 }
