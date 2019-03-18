@@ -11,8 +11,8 @@ app.use(express.static(__dirname + "/public"));
 var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Zhe12345!",
-    database: "411proj",
+    password: "CS411!!!",
+    database: "cs411proj",
     port: "3306"
 });
 
@@ -29,7 +29,7 @@ connection.connect(function(err){
 //     host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
 //     user : 'tutorial_user',
 //     database : 'sample',
-//     password : 'Zhe12345!'
+//     password : ''
 // });
 
 app.get("/", function(req, res){
