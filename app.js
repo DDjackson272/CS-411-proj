@@ -7,12 +7,30 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 
+// Connect to local database
 var connection = mysql.createConnection({
-    host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
-    user : 'tutorial_user',
-    database : 'sample',
-    password : 'Zhe12345!'
-})
+    host: "localhost",
+    user: "root",
+    password: "Zhe12345!",
+    database: "411proj",
+    port: "3306"
+});
+
+connection.connect(function(err){
+    if(err) {
+        console.log("Database not connected!");
+        throw err;
+    }
+    console.log('Database connected!');
+});
+
+// Connect to aws
+// var connection = mysql.createConnection({
+//     host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
+//     user : 'tutorial_user',
+//     database : 'sample',
+//     password : 'Zhe12345!'
+// });
 
 app.get("/", function(req, res){
     // res.send("new")
@@ -31,7 +49,7 @@ app.post("/register", function(req, res){
         if (err) throw err;
         res.redirect("/");
     })
-})
+});
 
 app.listen(80, function(){
     console.log("Server running!")
