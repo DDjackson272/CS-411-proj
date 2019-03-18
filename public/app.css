@@ -25,11 +25,10 @@ p{
     line-height: 1.5;
     border: none;
     border-bottom: 3px solid #ebebeb;
-    
     background: transparent;
 }
 
-input[type = text]:focus {
+input:focus {
     outline: none;
 }
 ::-webkit-input-placeholder{

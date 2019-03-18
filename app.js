@@ -1,57 +1,96 @@
-var express = require('express');
-var mysql = require('mysql');
-var app = express();
-var bodyParser = require('body-parser');
+require("dotenv").config();
+const express = require('express');
+const app = express();
+const cors = require("cors");
+const session = require("express-session");
+const errorHandler = require("./handlers/error");
+const authRoutes = require("./routes/auth");
+const bodyParser = require('body-parser');
+const {loginRequired, ensureCorrectUser} = require("./middleware/auth");
+const bcrypt = require("bcrypt");
+const db = require("./models");
+const flash = require("connect-flash");
+const PORT = 80;
 
 app.set("view engine", "ejs");
+app.use(cors());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 
-// Connect to local database
-var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "CS411!!!",
-    database: "cs411proj",
-    port: "3306"
-});
+app.use(require("express-session")({
+    secret: "cs411proj",
+    resave: false,
+    saveUninitialized: true
+}));
 
-connection.connect(function(err){
-    if(err) {
-        console.log("Database not connected!");
-        throw err;
-    }
-    console.log('Database connected!');
-});
+app.use(flash());
 
-// Connect to aws
-// var connection = mysql.createConnection({
-//     host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
-//     user : 'tutorial_user',
-//     database : 'sample',
-//     password : ''
-// });
+app.use(function(req, res, next){
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+    next();
+});
 
 app.get("/", function(req, res){
-    // res.send("new")
-    var q = "select count(*) as count from Employees";
-    connection.query(q, function(err,results){
-         if (err) throw err;
-         var count = (results[0].count);
-         // res.send("We have " + count + " users in our database!")
-         res.render("home", {data: count});
+    let numberOfData= "select count(*) as count from User";
+    let allData = "select * from User";
+    let dataQueue = [];
+    db.query(allData, function(err, results){
+       if (err) {
+           req.flash("error", err.message);
+           res.redirect("/");
+       } else {
+           dataQueue.push(results);
+       }
+    });
+
+    db.query(numberOfData, function(err,results){
+         if (err) {
+             req.flash("error", err.message);
+             res.redirect("/");
+         } else {
+             dataQueue.push(results[0].count);
+             res.render("home", {allData: dataQueue[0], dataCount: dataQueue[1]});
+         }
+    });
+});
+
+// add encryption of password to not show them explicitly in database
+app.post("/register", async function(req, res){
+    let person = {email: req.body.email,
+                username: req.body.username,
+                img: req.body.img,
+                password: req.body.password};
+    person.password = await bcrypt.hash(person.password, 10);
+    db.query('insert into User set ?', person, function(err){
+        if (err) {
+            if (err.errno === 1062) {
+                // alert("This email address has been registered! Try another one.");
+                req.flash("error", "This email address has been registered! Try another one.");
+                res.redirect("/");
+                // console.log("This email address has been registered! Try another one.");
+            } else {
+                req.flash("error", err.message);
+                res.redirect("/");
+            }
+        } else {
+            req.flash("success", "Register successfully!");
+            res.redirect("/");
+        }
     })
 });
 
-app.post("/register", function(req, res){
-    var person = {name: req.body.Name, address: req.body.Address};
-    connection.query('insert into Employees set ?', person, function(err, results){
-        if (err) throw err;
-        res.redirect("/");
-    })
+app.use(function(req, res, next){
+    return next({
+        status: 404,
+        message: "NOT FOUND"
+    });
 });
 
-app.listen(80, function(){
+app.use(errorHandler);
+
+app.listen(PORT, function(){
     console.log("Server running!")
 });
 

@@ -1,9 +1,38 @@
 <link rel = "stylesheet" href = "/app.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<div class="container">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+    <% } %>
+</div>
 <h1>JOIN US</h1>
-<p class = 'lead'> There are <strong><%=data%></strong> employees already.</p>
+
 <form method = 'post' action='/register'>
-    <input type = "text" name = "Name" class = "form" placeholder = "first name">
-    <input type = "text" name = "Address" class = "form" placeholder = "last name">
+    <input type = "email" name = "email" class = "form" placeholder = "email">
+    <input type = "text" name = "username" class = "form" placeholder = "username">
+    <input type = "text" name = "img" class = "form" placeholder = "img">
+    <input type = "password" name = "password" class = "form" placeholder = "password">
     <button>Join Now</button>
 </form>
+
+<p class = 'lead'> There are <strong><%=dataCount%></strong> users already.</p>
+
+
+<div class="users">
+    <% allData.forEach(function(data){ %>
+        <div class="single-user">
+            <span>Username: <%= data.username %>;</span>
+            <span>Profile picture: <%= data.img %>;</span>
+            <span>Password: <%= data.password %>;</span>
+        </div>
+    <%})%>
+</div>
+
