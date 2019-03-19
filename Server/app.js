@@ -8,7 +8,7 @@ const userRoutes = require("./routes/user");
 const bodyParser = require('body-parser');
 const {loginRequired, ensureCorrectUser} = require("./middleware/auth");
 const bcrypt = require("bcrypt");
-const db = require("./models");
+const db = require("./models/index");
 const flash = require("connect-flash");
 const PORT = 80;
 
