@@ -2,9 +2,9 @@ require("dotenv").config();
 const express = require('express');
 const app = express();
 const cors = require("cors");
-const session = require("express-session");
 const errorHandler = require("./handlers/error");
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 const bodyParser = require('body-parser');
 const {loginRequired, ensureCorrectUser} = require("./middleware/auth");
 const bcrypt = require("bcrypt");
@@ -34,29 +34,7 @@ app.use(function(req, res, next){
 
 app.use("/api/auth", authRoutes);
 
-app.get("/", function(req, res){
-    let numberOfData= "select count(*) as count from User";
-    let allData = "select * from User";
-    let dataQueue = [];
-    db.query(allData, function(err, results){
-       if (err) {
-           req.flash("error", err.message);
-           res.redirect("/");
-       } else {
-           dataQueue.push(results);
-       }
-    });
-
-    db.query(numberOfData, function(err,results){
-         if (err) {
-             req.flash("error", err.message);
-             res.redirect("/");
-         } else {
-             dataQueue.push(results[0].count);
-             res.render("home", {allData: dataQueue[0], dataCount: dataQueue[1]});
-         }
-    });
-});
+app.use("/api/user", userRoutes);
 
 // add encryption of password to not show them explicitly in database
 // used for un-restful api
