@@ -1,44 +1,44 @@
 const db = require("../models");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 // signup and signin, if successfully done, will return a decoded token
 exports.signin = async function (req, res, next) {
-    try {
-        // finding a user.js
-        let user = await db.User.findOne({
-            email: req.body.email
-        });
-        let {id, username, profileImageUrl} = user;
-        let isMatch = await user.comparePassword(req.body.password);
-        // checking if their password matches what was sent to the server
-        // if it all matches
-        // log them in
-        if (isMatch) {
-            let token = jwt.sign({
-                id,
-                username,
-                profileImageUrl
-            }, process.env.SECRET_KEY);
-
-            return res.status(200).json({
-                id,
-                username,
-                profileImageUrl,
-                token
-            });
-        } else {
+    // finding a user.js
+    let searchQuery = "select * from User where email=\"" + req.body.email + "\"";
+    db.query(searchQuery, async function (err, results) {
+        if (err || results.length === 0) {
             return next({
                 status: 400,
                 message: "Invalid email/password."
-            })
-        }
-    } catch (err) {
-        return next({
-            status: 400,
-            message: "Invalid email/password."
-        })
-    }
+            });
+        } else {
 
+            let {email, username, img} = results[0];
+            let isMatch = await bcrypt.compare(req.body.password, results[0].password);
+
+            if (isMatch) {
+                let token = jwt.sign({
+                    email,
+                    username,
+                    img
+                }, process.env.SECRET_KEY);
+
+                return res.status(200).json({
+                    email,
+                    username,
+                    img,
+                    token
+                });
+
+            } else {
+                return next({
+                    status: 400,
+                    message: "Invalid email/password."
+                });
+            }
+        }
+    });
 };
 
 exports.signup = async function (req, res, next) {
@@ -48,6 +48,7 @@ exports.signup = async function (req, res, next) {
         img: req.body.img,
         password: req.body.password
     };
+
     person.password = await bcrypt.hash(person.password, 10);
 
     db.query('insert into User set ?', person, function (err) {

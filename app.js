@@ -32,6 +32,8 @@ app.use(function(req, res, next){
     next();
 });
 
+app.use("/api/auth", authRoutes);
+
 app.get("/", function(req, res){
     let numberOfData= "select count(*) as count from User";
     let allData = "select * from User";
@@ -57,29 +59,33 @@ app.get("/", function(req, res){
 });
 
 // add encryption of password to not show them explicitly in database
-app.post("/register", async function(req, res){
-    let person = {email: req.body.email,
-                username: req.body.username,
-                img: req.body.img,
-                password: req.body.password};
-    person.password = await bcrypt.hash(person.password, 10);
-    db.query('insert into User set ?', person, function(err){
-        if (err) {
-            if (err.errno === 1062) {
-                // alert("This email address has been registered! Try another one.");
-                req.flash("error", "This email address has been registered! Try another one.");
-                res.redirect("/");
-                // console.log("This email address has been registered! Try another one.");
-            } else {
-                req.flash("error", err.message);
-                res.redirect("/");
-            }
-        } else {
-            req.flash("success", "Register successfully!");
-            res.redirect("/");
-        }
-    })
-});
+// used for un-restful api
+
+// app.post("/register", async function(req, res){
+//     let person = {email: req.body.email,
+//                 username: req.body.username,
+//                 img: req.body.img,
+//                 password: req.body.password};
+//
+//     person.password = await bcrypt.hash(person.password, 10);
+//
+//     db.query('insert into User set ?', person, function(err){
+//         if (err) {
+//             if (err.errno === 1062) {
+//                 // alert("This email address has been registered! Try another one.");
+//                 req.flash("error", "This email address has been registered! Try another one.");
+//                 res.redirect("/");
+//                 // console.log("This email address has been registered! Try another one.");
+//             } else {
+//                 req.flash("error", err.message);
+//                 res.redirect("/");
+//             }
+//         } else {
+//             req.flash("success", "Register successfully!");
+//             res.redirect("/");
+//         }
+//     })
+// });
 
 app.use(function(req, res, next){
     return next({
