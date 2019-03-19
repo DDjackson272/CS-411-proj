@@ -1,6 +1,18 @@
 const db = require("../models");
 
-// "/api/users/:id/messages/"
+// "/api/users/:id"
+exports.showHousing = async function(req, res, next){
+    let findAllHousing = "select * from Housing where user_id=\""+req.params.id+"\"";
+    db.query(findAllHousing, function(err, results){
+        if (err){
+            return next(err);
+        } else {
+            return res.status(200).json(results)
+        }
+    })
+};
+
+// "/api/users/:id/create/"
 exports.createHousing = async function(req, res, next){
     let housing = {
         address: req.body.address,

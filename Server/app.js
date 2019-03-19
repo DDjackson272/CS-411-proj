@@ -37,7 +37,7 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/user", userRoutes);
 
-app.use("/api/users/:id/housing", housingRoutes);
+app.use("/api/user/:id/housing", housingRoutes);
 
 // add encryption of password to not show them explicitly in database
 // used for un-restful api
