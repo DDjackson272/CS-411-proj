@@ -5,6 +5,7 @@ const cors = require("cors");
 const errorHandler = require("./handlers/error");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const housingRoutes = require("./routes/housing");
 const bodyParser = require('body-parser');
 const {loginRequired, ensureCorrectUser} = require("./middleware/auth");
 const bcrypt = require("bcrypt");
@@ -35,6 +36,8 @@ app.use(function(req, res, next){
 app.use("/api/auth", authRoutes);
 
 app.use("/api/user", userRoutes);
+
+app.use("/api/users/:id/housing", housingRoutes);
 
 // add encryption of password to not show them explicitly in database
 // used for un-restful api

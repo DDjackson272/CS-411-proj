@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 
 // signup and signin, if successfully done, will return a decoded token
 exports.signin = async function (req, res, next) {
-    // finding a user.js
     let searchQuery = "select * from User where email=\"" + req.body.email + "\"";
     db.query(searchQuery, async function (err, results) {
         if (err || results.length === 0) {
@@ -54,10 +53,10 @@ exports.signup = async function (req, res, next) {
     db.query('insert into User set ?', person, function (err) {
         if (err) {
             if (err.errno === 1062) {
-                err.message = "This email address has been registered! Try another one.";
+                err.message = "This email/username has been registered! Try another one.";
             }
             return next({
-                status: 400, // user.js validation failed: do not provide required information
+                status: 400,
                 message: err.message
             });
         } else {

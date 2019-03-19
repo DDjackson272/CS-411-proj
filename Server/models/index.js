@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 // Connect to aws
 // var connection = mysql.createConnection({
 //     host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
-//     user.js : 'tutorial_user',
+//     user : 'tutorial_user',
 //     database : 'sample',
 //     password : ''
 // });
@@ -27,17 +27,32 @@ connection.connect(function(err){
 
 // first create table in case they do not exist
 let user = "create table User (" +
-    "email varchar(255) NOT NULL," +
-    "username varchar(255) NOT NULL," +
+    "user_id int NOT NULL AUTO_INCREMENT," +
+    "email varchar(255) NOT NULL UNIQUE," +
+    "username varchar(255) NOT NULL UNIQUE," +
     "password varchar(255) NOT NULL," +
     "img varchar(255) NOT NULL," +
-    "PRIMARY KEY (email)" +
+    "PRIMARY KEY (user_id)" +
+    ");";
+
+let housing = "create table Housing (" +
+    "housing_id int NOT NULL AUTO_INCREMENT," +
+    "user_id int NOT NULL," +
+    "address varchar(255) NOT NULL UNIQUE," +
+    "PRIMARY KEY (housing_id)," +
+    "FOREIGN KEY (user_id) REFERENCES User (user_id)" +
     ");";
 
 connection.query(user, function(err){
     if (err) {
-        console.log("Table already exists!");
+        console.log(err.message);
     }
+});
+
+connection.query(housing, function(err){
+   if (err) {
+       console.log(err.message)
+   }
 });
 
 module.exports = connection;
