@@ -13,25 +13,29 @@
         </div>
     <% } %>
 </div>
-<h1>JOIN US</h1>
+<h1>USER</h1>
 
-<form method = 'post' action='/register'>
+<form method = 'post' action='/user/signup'>
     <input type = "email" name = "email" class = "form" placeholder = "email">
     <input type = "text" name = "username" class = "form" placeholder = "username">
     <input type = "text" name = "img" class = "form" placeholder = "img">
     <input type = "password" name = "password" class = "form" placeholder = "password">
-    <button>Join Now</button>
+    <button>Sign Up</button>
 </form>
 
-<p class = 'lead'> There are <strong><%=dataCount%></strong> users already.</p>
+<form method = 'post' action='/user/signin'>
+    <input type = "email" name = "email" class = "form" placeholder = "email">
+    <input type = "password" name = "password" class = "form" placeholder = "password">
+    <button>Sign In</button>
+</form>
+
+<p class = 'lead'> There are <strong><%=allData.length%></strong> users already.</p>
 
 
 <div class="users">
     <% allData.forEach(function(data){ %>
         <div class="single-user">
-            <span>Username: <%= data.username %>;</span>
-            <span>Profile picture: <%= data.img %>;</span>
-            <span>Password: <%= data.password %>;</span>
+            <a href="/user/<%=data.user_id%>/housing">Username: <%= data.username %>;</a>
         </div>
     <%})%>
 </div>

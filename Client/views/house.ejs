@@ -1,0 +1,34 @@
+<link rel = "stylesheet" href = "/app.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<div class="container">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+    <% } %>
+</div>
+<h1>HOUSE</h1>
+
+<form method = 'post' action='/user/<%=uid%>/housing'>
+    <input type = "text" name = "address" class = "form" placeholder = "address">
+    <button>Add House</button>
+</form>
+
+<p class = 'lead'> There are <strong><%=houseData.length%></strong> houses posted by this user.</p>
+
+
+<div class="users">
+    <% houseData.forEach(function(data){ %>
+        <div class="single-user">
+            <a href="/user/<%=data.user_id%>/housing/<%=data.housing_id%>">
+                House Address: <%= data.address %>;
+            </a>
+        </div>
+    <%})%>
+</div>

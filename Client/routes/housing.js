@@ -9,4 +9,5 @@ router.route("/:housing_id")
     .get(getHousing)
     .delete(deleteHousing)
     .put(updateHousing);
+
 module.exports = router;

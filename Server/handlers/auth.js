@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 // signup and signin, if successfully done, will return a decoded token
 exports.signin = async function (req, res, next) {
-    let searchQuery = "select * from User where email=\"" + req.body.email + "\"";
+    let searchQuery = "select * from User where email=\"" + req.body.email + "\";";
     db.query(searchQuery, async function (err, results) {
         if (err || results.length === 0) {
             return next({
@@ -15,6 +15,7 @@ exports.signin = async function (req, res, next) {
 
             let {email, username, img} = results[0];
             let isMatch = await bcrypt.compare(req.body.password, results[0].password);
+            let flag = "Welcome back!";
 
             if (isMatch) {
                 let token = jwt.sign({
@@ -27,7 +28,8 @@ exports.signin = async function (req, res, next) {
                     email,
                     username,
                     img,
-                    token
+                    token,
+                    flag
                 });
 
             } else {
@@ -61,6 +63,7 @@ exports.signup = async function (req, res, next) {
             });
         } else {
             let {email, username, img} = person;
+            let flag = "Thank you for joining us!";
 
             let token = jwt.sign({
                 email,
@@ -72,7 +75,8 @@ exports.signup = async function (req, res, next) {
                 email,
                 username,
                 img,
-                token
+                token,
+                flag
             });
         }
     });
