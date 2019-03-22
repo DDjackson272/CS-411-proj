@@ -31,5 +31,5 @@ app.use("/user", userRoutes);
 app.use("/user/:id/housing", housingRoutes);
 
 app.listen(PORT, function(){
-    console.log("Server running!")
+    console.log("server running!")
 });

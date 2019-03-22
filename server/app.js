@@ -32,6 +32,6 @@ app.use(function(req, res, next){
 app.use(errorHandler);
 
 app.listen(PORT, function(){
-    console.log("Server running!")
+    console.log("server running!")
 });
 
