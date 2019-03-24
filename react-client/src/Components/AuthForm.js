@@ -22,13 +22,12 @@ export default class AuthForm extends Component {
         e.preventDefault();
         const authType = this.props.signUp ? "signup" : "signin";
         this.props.onAuth(authType, this.state)
-            .then(() => console.log("logged in"))
+            .then((flag) => console.log(flag))
     };
 
     render(){
         const {email, username, password, img} = this.state;
         const {heading, buttonText, signUp} = this.props;
-        console.log(buttonText);
         return (
             <div>
                 <div className="row justify-content-md-center text-center">
@@ -73,7 +72,7 @@ export default class AuthForm extends Component {
                             <button
                                 type="submit"
                                 className={"btn btn-primary btn-lg btn-block"}
-                                style={{"margin-top": 15}}
+                                style={{"marginTop": 15}}
                             >
                                 {buttonText}
                             </button>

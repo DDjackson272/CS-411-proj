@@ -12,10 +12,10 @@ export function authUser(type, userData){
     return dispatch => {
         return new Promise((resolve, reject) => {
             return apiCall("post", `/api/user/${type}`, userData)
-                .then(({token, ...user}) => {
+                .then(({token, flag, ...user}) => {
                     localStorage.setItem("jwtToken", token);
                     dispatch(setCurrentUser(user));
-                    resolve();
+                    resolve(flag);
                 })
         })
     }
