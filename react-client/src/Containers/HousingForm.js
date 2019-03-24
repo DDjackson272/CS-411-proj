@@ -6,7 +6,8 @@ class HousingForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            address: ""
+            address: "",
+            city: ""
         };
     }
 
@@ -24,7 +25,7 @@ class HousingForm extends Component {
     };
 
     render(){
-        const {address} = this.state;
+        const {address, city} = this.state;
         return (
             <form onSubmit={this.handleNewHousing}>
                 {this.props.errors.message && (
@@ -32,11 +33,20 @@ class HousingForm extends Component {
                         {this.props.errors.message}
                     </div>
                 )}
+                <label htmlFor={"address"}>Address:</label>
                 <input
                     type="text"
                     name="address"
                     className="form-control"
                     value={address}
+                    onChange={this.handleChange}
+                />
+                <label htmlFor={"city"}>City:</label>
+                <input
+                    type="text"
+                    name="city"
+                    className="form-control"
+                    value={city}
                     onChange={this.handleChange}
                 />
                 <button type={"submit"} className={"btn btn-success"} style={{"marginTop": 10}}>

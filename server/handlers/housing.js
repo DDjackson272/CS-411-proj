@@ -31,10 +31,11 @@ exports.showHousing = function(req, res, next){
 exports.createHousing = function(req, res, next){
     let housing = {
         address: req.body.address,
+        city: req.body.city,
         username: req.params.username
     };
 
-    db.query('insert into Housing set ?;', housing, function (err) {
+    db.query('insert into Housing set ?', housing, function (err) {
         if (err){
             return next({
                 status: 400,

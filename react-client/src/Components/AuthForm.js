@@ -30,7 +30,7 @@ export default class AuthForm extends Component {
     };
 
     render(){
-        const {email, username, password, img} = this.state;
+        const {email, username, img} = this.state;
         const {heading, buttonText, signUp, errors, history, removeError} = this.props;
 
         // history.listen, listens to every change in route.

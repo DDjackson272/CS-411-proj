@@ -39,6 +39,22 @@ app.get("/api/housing", async function (req, res, next) {
     });
 });
 
+app.get("/api/housing/analysis", async function(req, res, next){
+    let groupByHousing = "SELECT city, count(*) as housing_number " +
+        "from Housing " +
+        "group by city;";
+    db.query(groupByHousing, function(err, results) {
+        if (err) {
+            return next({
+                status: 400,
+                message: err.message
+            });
+        } else {
+            return res.status(200).json(results);
+        }
+    })
+});
+
 app.use(function (req, res, next) {
     return next({
         status: 404,

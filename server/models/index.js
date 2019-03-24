@@ -39,6 +39,7 @@ let housing = "create table Housing (" +
     "housing_id int NOT NULL AUTO_INCREMENT," +
     "username varchar(255) NOT NULL," +
     "address varchar(255) NOT NULL," +
+    "city varchar(255) NOT NULL," +
     "PRIMARY KEY (housing_id)," +
     "FOREIGN KEY (username) REFERENCES User (username)" +
     ");";
