@@ -6,7 +6,7 @@ const errorHandler = require("./handlers/error");
 const userRoutes = require("./routes/user");
 const housingRoutes = require("./routes/housing");
 const bodyParser = require('body-parser');
-const {loginRequired, ensureCorrectUser} = require("./middleware/auth");
+const db = require("./models/index");
 const PORT = 81;
 
 app.set("view engine", "ejs");
@@ -20,9 +20,26 @@ app.use("/api/user", userRoutes);
 
 // contains two sub-routes: / and /housing_id,
 // / has GET and POST request and /housing_id has GET and DELETE request
+// ensure login and correct user before editing housing
 app.use("/api/user/:id/housing", housingRoutes);
 
-app.use(function(req, res, next){
+// contains one sub-route:
+// ensure login first before see the houses listed
+app.get("/api/housing", async function (req, res, next) {
+    let findHousing = "SELECT * FROM Housing";
+    db.query(findHousing, function (err, results) {
+        if (err) {
+            return next({
+                status: 400,
+                message: err.message
+            });
+        } else {
+            return res.status(200).json(results);
+        }
+    });
+});
+
+app.use(function (req, res, next) {
     return next({
         status: 404,
         message: "NOT FOUND"
@@ -31,7 +48,7 @@ app.use(function(req, res, next){
 
 app.use(errorHandler);
 
-app.listen(PORT, function(){
+app.listen(PORT, function () {
     console.log("server running!")
 });
 

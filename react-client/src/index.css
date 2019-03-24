@@ -1,0 +1,59 @@
+body {
+    background-color: #e6ecf0;
+}
+
+.container-fluid a{
+    color:#e84a27;
+}
+
+.navbar {
+    margin-bottom: 1rem;
+}
+
+.navbar a{
+    font-weight: bold;
+}
+
+.navbar-right a{
+    color: #13294b;
+    margin: 0 0.5rem;
+}
+
+.navbar a:hover{
+    color: white;
+}
+
+
+.onboarding > .navbar {
+    background-image: url(https://htmlcolors.com/brand-image/university-of-illinois-urbana-champaign.png);
+    background-size: 100%;
+}
+
+.navbar-brand > img{
+    display: inline;
+    width: 25px;
+    margin-bottom: 2px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 2px;
+}
+
+.home-hero {
+    color: #13294b;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index:-1;
+    background-image: url("https://www.library.illinois.edu/mappinghistory/wp-content/uploads/sites/7/2017/01/MapLib1884ChampaignRS01807-1184x592.jpg");
+    text-align: center;
+    padding: 1rem;
+    background-position: center center;
+    background-size: cover;
+    text-shadow: 0 0 8px #66757f;
+}
