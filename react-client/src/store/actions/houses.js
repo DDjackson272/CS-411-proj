@@ -7,6 +7,20 @@ export const loadHousing = housings => ({
     housings
 });
 
+export const remove = housing_id => ({
+    type: REMOVE_HOUSING,
+    housing_id
+});
+
+export const removeHousings = (username, housing_id) => {
+    console.log(`/api/user/${username}/housing/${housing_id}`);
+    return dispatch => {
+        return apiCall("delete", `/api/user/${username}/housing/${housing_id}`)
+            .then(() => dispatch(remove(housing_id)))
+            .catch(err => dispatch(addError(err.message)))
+    }
+};
+
 export const fetchHousings = () => {
     return dispatch => {
         return apiCall("get", "/api/housing")

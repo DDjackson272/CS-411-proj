@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchHousings} from "../store/actions/houses";
+import {fetchHousings, removeHousings} from "../store/actions/houses";
 import HousingItem from "../Components/HousingItem"
 
 class HousingList extends Component {
@@ -9,12 +9,14 @@ class HousingList extends Component {
     }
 
     render(){
-        const {housings} = this.props;
+        const {housings, removeHousings, currentUser} = this.props;
         let housingList = housings.map(h => (
             <HousingItem
                 key={h.housing_id}
                 address={h.address}
                 username={h.username}
+                isCorrectUser={currentUser.user.username===h.username}
+                removeHousings={removeHousings.bind(this, h.username, h.housing_id)}
             />
         ));
 
@@ -32,8 +34,9 @@ class HousingList extends Component {
 
 function mapStateToProps(state) {
     return {
-        housings: state.housings
+        housings: state.housings,
+        currentUser: state.currentUser
     };
 }
 
-export default connect(mapStateToProps, {fetchHousings})(HousingList);
+export default connect(mapStateToProps, {fetchHousings, removeHousings})(HousingList);
