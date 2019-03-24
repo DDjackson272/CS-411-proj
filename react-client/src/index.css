@@ -57,3 +57,13 @@ body {
     background-size: cover;
     text-shadow: 0 0 8px #66757f;
 }
+
+#housings .list-group-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 7px 20px 12px;
+}
+
+#housings:not(.no-hover) .list-group-item:hover {
+    background: #e6ecff;
+}

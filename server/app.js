@@ -21,7 +21,7 @@ app.use("/api/user", userRoutes);
 // contains two sub-routes: / and /housing_id,
 // / has GET and POST request and /housing_id has GET and DELETE request
 // ensure login and correct user before editing housing
-app.use("/api/user/:id/housing", housingRoutes);
+app.use("/api/user/:username/housing", housingRoutes);
 
 // contains one sub-route:
 // ensure login first before see the houses listed

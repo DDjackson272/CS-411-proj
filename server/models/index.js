@@ -37,10 +37,10 @@ let user = "create table User (" +
 
 let housing = "create table Housing (" +
     "housing_id int NOT NULL AUTO_INCREMENT," +
-    "user_id int NOT NULL," +
-    "address varchar(255) NOT NULL UNIQUE," +
+    "username varchar(255) NOT NULL," +
+    "address varchar(255) NOT NULL," +
     "PRIMARY KEY (housing_id)," +
-    "FOREIGN KEY (user_id) REFERENCES User (user_id)" +
+    "FOREIGN KEY (username) REFERENCES User (username)" +
     ");";
 
 connection.query(user, function(err){
