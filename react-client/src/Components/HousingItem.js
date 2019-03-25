@@ -3,7 +3,7 @@ import Moment from 'react';
 import {Link} from 'react-router-dom';
 
 
-const HousingItem = ({housing_id, housing_name, city, fetchSingleHousing,
+const HousingItem = ({housing_id, housing_name, city,
                          username, address, removeHousings, isCorrectUser, img_url}) => (
     <div>
         <li className="list-group-item">
@@ -27,7 +27,6 @@ const HousingItem = ({housing_id, housing_name, city, fetchSingleHousing,
                     </a>
                     <Link to={`/user/${username}/housing/${housing_id}/update`}
                           className={"btn btn-warning"}
-                          onClick={fetchSingleHousing}
                           style={{"marginTop":10}}>
                         Modify
                     </Link>

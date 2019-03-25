@@ -43,7 +43,7 @@ class HousingForm extends Component {
 
     render(){
 
-        let {housing_name, address, city, description, img_url} = this.state || "";
+        let {housing_name, address, city, description, img_url} = this.state;
 
         return (
             <form onSubmit={this.handleNewHousing}>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchHousings, removeHousings, fetchGroupByHousing, fetchSingleHousing} from "../store/actions/houses";
+import {fetchHousings, removeHousings, fetchGroupByHousing} from "../store/actions/houses";
 import HousingItem from "../Components/HousingItem"
 
 class HousingList extends Component {
@@ -10,7 +10,7 @@ class HousingList extends Component {
     }
 
     render(){
-        const {groupbyHousings, housings, removeHousings, fetchSingleHousing, currentUser} = this.props;
+        const {groupbyHousings, housings, removeHousings, currentUser} = this.props;
 
         let groupbyList = groupbyHousings.map((g, index) => (
             <li key={index}>{g.city}: {g.housing_number}</li>
@@ -27,7 +27,6 @@ class HousingList extends Component {
                 housing_id={h.housing_id}
                 isCorrectUser={currentUser.user.username===h.username}
                 removeHousings={removeHousings.bind(this, h.username, h.housing_id)}
-                fetchSingleHousing={fetchSingleHousing.bind(this, h.username, h.housing_id)}
             />
         ));
 
@@ -60,4 +59,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps,
-    {fetchHousings, removeHousings, fetchSingleHousing, fetchGroupByHousing})(HousingList);
+    {fetchHousings, removeHousings, fetchGroupByHousing})(HousingList);
