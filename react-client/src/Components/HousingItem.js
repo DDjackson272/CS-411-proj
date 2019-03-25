@@ -3,8 +3,8 @@ import Moment from 'react';
 import {Link} from 'react-router-dom';
 
 
-const HousingItem = ({housing_id, housing_name, city,
-                         username, address, removeHousings, isCorrectUser, img_url}) => (
+const HousingItem = ({housing_id, housing_name,
+                         username, removeHousings, img_url}) => (
     <div>
         <li className="list-group-item">
             <img
@@ -13,25 +13,13 @@ const HousingItem = ({housing_id, housing_name, city,
                 className={"timeline-image"}
             />
             <div>
-                {housing_name}: {address}, {city}.
+                {housing_name}.
             </div>
             <div>
-                <Link to={"/"}>@{username} &nbsp;</Link>
+                <Link to={`/user/${username}/housing/${housing_id}`} className={"btn btn-primary"}>
+                    Read
+                </Link>
             </div>
-            {isCorrectUser && (
-                <div>
-                    <a className={"btn btn-danger"}
-                       onClick={removeHousings}
-                       href={"/"}>
-                        Delete
-                    </a>
-                    <Link to={`/user/${username}/housing/${housing_id}/update`}
-                          className={"btn btn-warning"}
-                          style={{"marginTop":10}}>
-                        Modify
-                    </Link>
-                </div>
-            )}
         </li>
     </div>
 );

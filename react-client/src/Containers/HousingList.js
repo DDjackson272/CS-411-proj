@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchHousings, removeHousings, fetchGroupByHousing} from "../store/actions/houses";
+import {fetchHousings, fetchGroupByHousing} from "../store/actions/houses";
 import HousingItem from "../Components/HousingItem"
+import {Link} from 'react-router-dom';
 
 class HousingList extends Component {
     componentDidMount() {
@@ -9,31 +10,27 @@ class HousingList extends Component {
         this.props.fetchGroupByHousing();
     }
 
-    render(){
-        const {groupbyHousings, housings, removeHousings, currentUser} = this.props;
+    render() {
+        const {groupbyHousings, housings} = this.props;
 
         let groupbyList = groupbyHousings.map((g, index) => (
             <li key={index}>{g.city}: {g.housing_number}</li>
         ));
 
-        let housingList = housings.map(h => (
+        let housingList = housings.map((h, index) => (
             <HousingItem
-                key={h.housing_id}
-                city={h.city}
+                key={index}
                 housing_name={h.housing_name}
-                address={h.address}
                 username={h.username}
                 img_url={h.img_url}
                 housing_id={h.housing_id}
-                isCorrectUser={currentUser.user.username===h.username}
-                removeHousings={removeHousings.bind(this, h.username, h.housing_id)}
             />
         ));
 
         return (
             <div>
                 <div>
-                    <h4> Housing distribution </h4>
+                    { housingList.length > 0 && <h4> Housing distribution </h4>}
                     <ul>
                         {groupbyList}
                     </ul>
@@ -59,4 +56,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps,
-    {fetchHousings, removeHousings, fetchGroupByHousing})(HousingList);
+    {fetchHousings, fetchGroupByHousing})(HousingList);

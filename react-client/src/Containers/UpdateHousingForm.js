@@ -37,7 +37,7 @@ class HousingForm extends Component {
         event.preventDefault();
         this.props.putHousings(this.props.match.params.username, this.props.match.params.housing_id, this.state);
         if (this.props.errors.message === null)
-            this.props.history.push("/");
+            this.props.history.push(`/user/${this.props.match.params.username}/housing/${this.props.match.params.housing_id}`);
         this.setState({});
     };
 

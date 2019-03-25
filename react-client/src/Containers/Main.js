@@ -8,6 +8,7 @@ import {removeError} from "../store/actions/errors";
 import {withAuth} from "../hocs/withAuth";
 import HousingForm from "../Containers/HousingForm";
 import UpdateHousingForm from "../Containers/UpdateHousingForm";
+import SingleHousing from "../Components/SingleHousing";
 
 const Main = props => {
     const {authUser, errors, removeError, currentUser} = props;
@@ -50,6 +51,15 @@ const Main = props => {
                 <Route
                     exact path={"/user/:username/housing/:housing_id/update"}
                     component={withAuth(UpdateHousingForm)}
+                />
+                <Route
+                    exact path={"/user/:username/housing/:housing_id"}
+                    render={props => {
+                        return (
+                            <SingleHousing
+                                {...props}/>
+                        )
+                    }}
                 />
             </Switch>
         </div>
