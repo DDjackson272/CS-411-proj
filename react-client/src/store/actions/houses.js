@@ -25,6 +25,14 @@ export const removeHousings = (username, housing_id) => {
     }
 };
 
+export const putHousings = (username, housing_id, data) => {
+    return dispatch => {
+        return apiCall("put", `/api/user/${username}/housing/${housing_id}`, data)
+            .then(res => console.log(res.error.message))
+            .catch(err => dispatch(addError(err.message)))
+    };
+};
+
 export const fetchHousings = () => {
     return dispatch => {
         return apiCall("get", "/api/housing")
@@ -44,8 +52,7 @@ export const fetchGroupByHousing = () => {
 export const postHousings = data => (dispatch, getState) => {
     let {currentUser} = getState();
     const username = currentUser.user.username;
-    console.log({username, ...data});
     return apiCall("post", `/api/user/${username}/housing`, {username, ...data})
-        .then(res => console.log(res))
+        .then(res => console.log(res.message))
         .catch(err => dispatch(addError(err.message)))
 };

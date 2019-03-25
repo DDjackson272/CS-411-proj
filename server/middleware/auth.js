@@ -31,6 +31,7 @@ exports.ensureCorrectUser = function(req, res, next){
             if (decoded && decoded.username === req.params.username){
                 return next();
             } else {
+                console.log(decoded.username, req.params.username);
                 return next({
                     status: 401,
                     message: "Unauthorized"

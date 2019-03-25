@@ -105,10 +105,19 @@ exports.deleteHousing = function(req, res, next){
     });
 };
 
-// /api/user/:username/messages/:housing_id
+// /api/user/:username/housing/:housing_id
 exports.updateHousing = function(req, res, next){
-    let updateHousing = `UPDATE Housing SET address='${req.body.address}' WHERE housing_id=${req.params.housing_id}`;
-    let findUser = `select * from User where username=${req.params.username}`;
+    let housing = {
+        address: req.body.address,
+        city: req.body.city,
+        username: req.params.username,
+        housing_name: req.body.housing_name,
+        description: req.body.description,
+        img_url: req.body.img_url
+    };
+
+    let updateHousing = `UPDATE Housing SET ? WHERE housing_id=${req.params.housing_id}`;
+    let findUser = `SELECT * FROM User WHERE username="${req.params.username}"`;
 
     db.query(findUser, function(err, results){
         if (err){
@@ -123,7 +132,7 @@ exports.updateHousing = function(req, res, next){
         }
     });
 
-    db.query(updateHousing, function(err){
+    db.query(updateHousing, housing, function(err){
         if (err) {
             return next(err);
         } else {

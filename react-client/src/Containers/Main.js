@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, withRouter, Redirect} from "react-router-dom";
+import {Switch, Route, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Homepage from "../Components/Homepage";
 import AuthForm from "../Components/AuthForm"
@@ -7,6 +7,7 @@ import {authUser} from "../store/actions/auth"
 import {removeError} from "../store/actions/errors";
 import {withAuth} from "../hocs/withAuth";
 import HousingForm from "../Containers/HousingForm";
+import UpdateHousingForm from "../Containers/UpdateHousingForm";
 
 const Main = props => {
     const {authUser, errors, removeError, currentUser} = props;
@@ -45,6 +46,10 @@ const Main = props => {
                 <Route
                     exact path={"/user/:username/housing/new"}
                     component={withAuth(HousingForm)}
+                />
+                <Route
+                    exact path={"/user/:username/housing/:housing_id/update"}
+                    component={withAuth(UpdateHousingForm)}
                 />
             </Switch>
         </div>

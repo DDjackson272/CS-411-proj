@@ -24,6 +24,7 @@ class HousingList extends Component {
                 address={h.address}
                 username={h.username}
                 img_url={h.img_url}
+                housing_id={h.housing_id}
                 isCorrectUser={currentUser.user.username===h.username}
                 removeHousings={removeHousings.bind(this, h.username, h.housing_id)}
             />
@@ -57,4 +58,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, {fetchHousings, removeHousings, fetchGroupByHousing})(HousingList);
+export default connect(mapStateToProps,
+    {fetchHousings, removeHousings, fetchGroupByHousing})(HousingList);
