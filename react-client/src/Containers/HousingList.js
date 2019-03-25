@@ -60,4 +60,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps,
-    {fetchHousings, fetchSingleHousing, fetchGroupByHousing})(HousingList);
+    {fetchHousings, removeHousings, fetchSingleHousing, fetchGroupByHousing})(HousingList);

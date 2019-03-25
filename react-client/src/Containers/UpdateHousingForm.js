@@ -1,32 +1,27 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {putHousings, fetchSingleHousing} from "../store/actions/houses";
+import {putHousings} from "../store/actions/houses";
 
 class HousingForm extends Component {
 
-    componentWillMount() {
-        console.log("exe api!");
-        this.props.fetchSingleHousing(this.props.match.params.username, this.props.match.params.housing_id);
-    }
-
-    componentWillUpdate(nextProps) {
-        console.log("next props");
-        console.log(nextProps);
-        // this.setState(nextProps.housings[0]);
-    }
-
     constructor(props){
-
-        console.log("exe constructor!");
-
         super(props);
-        this.state = {
+
+        let myHouse = {
             address: "",
             city: "",
             housing_name: "",
             description: "",
             img_url: ""
         };
+
+        props.housings.forEach( element => {
+            if (element.housing_id === parseInt(props.match.params.housing_id)) {
+                myHouse = Object.assign(myHouse, element);
+            }
+        });
+
+        this.state = myHouse;
 
         this.handleChange = this.handleChange.bind(this);
         this.handleNewHousing = this.handleNewHousing.bind(this);
@@ -47,11 +42,8 @@ class HousingForm extends Component {
     };
 
     render(){
-        let {housings} = this.props;
 
-        console.log(housings[0]);
-
-        let {housing_name, address, city, description, img_url} = housings[0] || "";
+        let {housing_name, address, city, description, img_url} = this.state || "";
 
         return (
             <form onSubmit={this.handleNewHousing}>
@@ -109,11 +101,10 @@ class HousingForm extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         errors: state.errors,
         housings: state.housings
     }
 }
 
-export default connect(mapStateToProps, {putHousings, fetchSingleHousing})(HousingForm);
+export default connect(mapStateToProps, {putHousings})(HousingForm);

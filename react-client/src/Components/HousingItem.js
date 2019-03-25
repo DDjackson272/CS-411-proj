@@ -27,7 +27,7 @@ const HousingItem = ({housing_id, housing_name, city, fetchSingleHousing,
                     </a>
                     <Link to={`/user/${username}/housing/${housing_id}/update`}
                           className={"btn btn-warning"}
-                          fetchSingleHousing={fetchSingleHousing}
+                          onClick={fetchSingleHousing}
                           style={{"marginTop":10}}>
                         Modify
                     </Link>
