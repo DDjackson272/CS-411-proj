@@ -3,12 +3,22 @@ import Moment from 'react';
 import {Link} from 'react-router-dom';
 
 
-const HousingItem = ({city, username, address, removeHousings, isCorrectUser}) => (
+const HousingItem = ({housing_name, city, username, address, removeHousings, isCorrectUser, img_url}) => (
     <div>
         <li className="list-group-item">
-            Housing address: {address}, {city}. It is posted by: {username}.
+            <img
+                src={img_url}
+                alt={username}
+                className={"timeline-image"}
+            />
+            <div>
+                {housing_name}: {address}, {city}.
+            </div>
+            <div>
+                <Link to={"/"}>@{username} &nbsp;</Link>
+            </div>
             {isCorrectUser && (
-                <a className={"btn btn-danger"} onClick={removeHousings}>
+                <a className={"btn btn-danger"} onClick={removeHousings} href={"/"}>
                     Delete
                 </a>
             )}

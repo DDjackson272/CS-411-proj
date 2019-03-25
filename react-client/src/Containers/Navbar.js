@@ -22,6 +22,11 @@ class Navbar extends Component {
                     {this.props.currentUser.isAuthenticated ? (
                         <ul className="uav navbar-nav navbar-right">
                             <li>
+                                <Link to={"/"}>
+                                    Hi, {this.props.currentUser.user.username}!
+                                </Link>
+                            </li>
+                            <li>
                                 <Link to={ `/user/${this.props.currentUser.user.username}/housing/new`} >
                                     New Housing
                                 </Link>

@@ -12,16 +12,18 @@ class HousingList extends Component {
     render(){
         const {groupbyHousings, housings, removeHousings, currentUser} = this.props;
 
-        let groupbyList = groupbyHousings.map(g => (
-            <li>{g.city}: {g.housing_number}</li>
+        let groupbyList = groupbyHousings.map((g, index) => (
+            <li key={index}>{g.city}: {g.housing_number}</li>
         ));
 
         let housingList = housings.map(h => (
             <HousingItem
                 key={h.housing_id}
                 city={h.city}
+                housing_name={h.housing_name}
                 address={h.address}
                 username={h.username}
+                img_url={h.img_url}
                 isCorrectUser={currentUser.user.username===h.username}
                 removeHousings={removeHousings.bind(this, h.username, h.housing_id)}
             />

@@ -7,7 +7,10 @@ class HousingForm extends Component {
         super(props);
         this.state = {
             address: "",
-            city: ""
+            city: "",
+            housing_name: "",
+            description: "",
+            img_url: ""
         };
     }
 
@@ -20,12 +23,13 @@ class HousingForm extends Component {
     handleNewHousing = event => {
         event.preventDefault();
         this.props.postHousings(this.state);
+        if (this.props.errors.message === null)
+            this.props.history.push("/");
         this.setState({});
-        this.props.history.push("/");
     };
 
     render(){
-        const {address, city} = this.state;
+        const {housing_name, address, city, description, img_url} = this.state;
         return (
             <form onSubmit={this.handleNewHousing}>
                 {this.props.errors.message && (
@@ -33,6 +37,14 @@ class HousingForm extends Component {
                         {this.props.errors.message}
                     </div>
                 )}
+                <label htmlFor={"housing_name"}>Name:</label>
+                <input
+                    type="text"
+                    name="housing_name"
+                    className="form-control"
+                    value={housing_name}
+                    onChange={this.handleChange}
+                />
                 <label htmlFor={"address"}>Address:</label>
                 <input
                     type="text"
@@ -47,6 +59,22 @@ class HousingForm extends Component {
                     name="city"
                     className="form-control"
                     value={city}
+                    onChange={this.handleChange}
+                />
+                <label htmlFor={"description"}>Description:</label>
+                <input
+                    type="text"
+                    name="description"
+                    className="form-control"
+                    value={description}
+                    onChange={this.handleChange}
+                />
+                <label htmlFor={"img_url"}>Image Url:</label>
+                <input
+                    type="text"
+                    name="img_url"
+                    className="form-control"
+                    value={img_url}
                     onChange={this.handleChange}
                 />
                 <button type={"submit"} className={"btn btn-success"} style={{"marginTop": 10}}>

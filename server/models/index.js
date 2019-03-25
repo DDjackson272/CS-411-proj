@@ -31,15 +31,18 @@ let user = "create table User (" +
     "email varchar(255) NOT NULL UNIQUE," +
     "username varchar(255) NOT NULL UNIQUE," +
     "password varchar(255) NOT NULL," +
-    "img varchar(255) NOT NULL," +
+    "img varchar(1024) NOT NULL," +
     "PRIMARY KEY (user_id)" +
     ");";
 
 let housing = "create table Housing (" +
     "housing_id int NOT NULL AUTO_INCREMENT," +
+    "housing_name varchar(255) NOT NULL,"+
     "username varchar(255) NOT NULL," +
-    "address varchar(255) NOT NULL," +
+    "address varchar(255) NOT NULL UNIQUE," +
     "city varchar(255) NOT NULL," +
+    "description varchar(1024) NOT NULL, " +
+    "img_url varchar(1024) NOT NULL, " +
     "PRIMARY KEY (housing_id)," +
     "FOREIGN KEY (username) REFERENCES User (username)" +
     ");";

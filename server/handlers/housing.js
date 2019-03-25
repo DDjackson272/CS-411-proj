@@ -32,11 +32,17 @@ exports.createHousing = function(req, res, next){
     let housing = {
         address: req.body.address,
         city: req.body.city,
-        username: req.params.username
+        username: req.params.username,
+        housing_name: req.body.housing_name,
+        description: req.body.description,
+        img_url: req.body.img_url
     };
 
     db.query('insert into Housing set ?', housing, function (err) {
         if (err){
+            if (err.errno === 1062) {
+                err.message = "This address is recorded already.";
+            }
             return next({
                 status: 400,
                 message: err.message
