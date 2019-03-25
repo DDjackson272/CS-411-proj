@@ -1,9 +1,24 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {putHousings} from "../store/actions/houses";
+import {putHousings, fetchSingleHousing} from "../store/actions/houses";
 
 class HousingForm extends Component {
-    constructor(props) {
+
+    componentWillMount() {
+        console.log("exe api!");
+        this.props.fetchSingleHousing(this.props.match.params.username, this.props.match.params.housing_id);
+    }
+
+    componentWillUpdate(nextProps) {
+        console.log("next props");
+        console.log(nextProps);
+        // this.setState(nextProps.housings[0]);
+    }
+
+    constructor(props){
+
+        console.log("exe constructor!");
+
         super(props);
         this.state = {
             address: "",
@@ -12,6 +27,9 @@ class HousingForm extends Component {
             description: "",
             img_url: ""
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleNewHousing = this.handleNewHousing.bind(this);
     }
 
     handleChange = (e) => {
@@ -29,7 +47,12 @@ class HousingForm extends Component {
     };
 
     render(){
-        const {housing_name, address, city, description, img_url} = this.state;
+        let {housings} = this.props;
+
+        console.log(housings[0]);
+
+        let {housing_name, address, city, description, img_url} = housings[0] || "";
+
         return (
             <form onSubmit={this.handleNewHousing}>
                 {this.props.errors.message && (
@@ -42,7 +65,7 @@ class HousingForm extends Component {
                     type="text"
                     name="housing_name"
                     className="form-control"
-                    value={housing_name}
+                    defaultValue={housing_name}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"address"}>Address:</label>
@@ -50,7 +73,7 @@ class HousingForm extends Component {
                     type="text"
                     name="address"
                     className="form-control"
-                    value={address}
+                    defaultValue={address}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"city"}>City:</label>
@@ -58,7 +81,7 @@ class HousingForm extends Component {
                     type="text"
                     name="city"
                     className="form-control"
-                    value={city}
+                    defaultValue={city}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"description"}>Description:</label>
@@ -66,7 +89,7 @@ class HousingForm extends Component {
                     type="text"
                     name="description"
                     className="form-control"
-                    value={description}
+                    defaultValue={description}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"img_url"}>Image Url:</label>
@@ -74,7 +97,7 @@ class HousingForm extends Component {
                     type="text"
                     name="img_url"
                     className="form-control"
-                    value={img_url}
+                    defaultValue={img_url}
                     onChange={this.handleChange}
                 />
                 <button type={"submit"} className={"btn btn-success"} style={{"marginTop": 10}}>
@@ -86,9 +109,11 @@ class HousingForm extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(state);
     return {
-        errors: state.errors
+        errors: state.errors,
+        housings: state.housings
     }
 }
 
-export default connect(mapStateToProps, {putHousings})(HousingForm);
+export default connect(mapStateToProps, {putHousings, fetchSingleHousing})(HousingForm);

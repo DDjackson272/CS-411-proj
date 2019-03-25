@@ -3,7 +3,7 @@ const db = require("../models");
 // /api/user/:username/housing
 exports.showHousing = function(req, res, next){
     let findAllHousing = `select * from Housing where username=${req.params.username};`;
-    let findUser = `select * from User where username=${req.params.username};`;
+    let findUser = `select * from User where username="${req.params.username}";`;
 
     db.query(findUser, function(err, results){
         if (err){
@@ -56,10 +56,10 @@ exports.createHousing = function(req, res, next){
     });
 };
 
-// /api/user/:username/messages/:housing_id
+// /api/user/:username/housing/:housing_id
 exports.getHousing = function(req, res, next) {
     let findHousing = `select * from Housing where housing_id=${req.params.housing_id};`;
-    let findUser = `select * from User where username=${req.params.username};`;
+    let findUser = `select * from User where username="${req.params.username}";`;
 
     db.query(findUser, function(err, results){
         if (err){
@@ -90,7 +90,7 @@ exports.getHousing = function(req, res, next) {
     });
 };
 
-// /api/user/:username/messages/:housing_id
+// /api/user/:username/housing/:housing_id
 exports.deleteHousing = function(req, res, next){
     let deleteHousing = `DELETE FROM Housing WHERE housing_id=${req.params.housing_id};`;
     db.query(deleteHousing, function(err){

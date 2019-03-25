@@ -1,6 +1,6 @@
 import {apiCall} from "../../services/api";
 import {addError} from "./errors";
-import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_GROUPBY_HOUSING} from "../actionTypes";
+import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_GROUPBY_HOUSING, LOAD_SINGLE_HOUSING} from "../actionTypes";
 
 export const loadHousing = housings => ({
     type: LOAD_HOUSING,
@@ -17,6 +17,11 @@ export const loadGroupbyHousing = groupbyHousings => ({
     groupbyHousings
 });
 
+export const loadSingleHousing = housings => ({
+    type: LOAD_SINGLE_HOUSING,
+    housings
+});
+
 export const removeHousings = (username, housing_id) => {
     return dispatch => {
         return apiCall("delete", `/api/user/${username}/housing/${housing_id}`)
@@ -27,6 +32,7 @@ export const removeHousings = (username, housing_id) => {
 
 export const putHousings = (username, housing_id, data) => {
     return dispatch => {
+        console.log(data);
         return apiCall("put", `/api/user/${username}/housing/${housing_id}`, data)
             .then(res => console.log(res.error.message))
             .catch(err => dispatch(addError(err.message)))
@@ -45,6 +51,14 @@ export const fetchGroupByHousing = () => {
     return dispatch => {
         return apiCall("get", "/api/housing/analysis")
             .then(res => dispatch(loadGroupbyHousing(res)))
+            .catch(err => dispatch(addError(err.message)))
+    }
+};
+
+export const fetchSingleHousing = (username, housing_id) => {
+    return dispatch => {
+        return apiCall("get", `/api/user/${username}/housing/${housing_id}`)
+            .then(res => dispatch(loadSingleHousing(res)))
             .catch(err => dispatch(addError(err.message)))
     }
 };
