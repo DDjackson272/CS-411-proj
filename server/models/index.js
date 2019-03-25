@@ -9,11 +9,12 @@ const mysql = require('mysql');
 //     port: "3306"
 // });
 
+// Connect to aws-rds
 var connection = mysql.createConnection({
     host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
     user : 'tutorial_user',
     database : 'sample',
-    password : ''
+    password : 'Zhe12345!'
 });
 
 connection.connect(function(err){
