@@ -43,6 +43,7 @@ class HousingForm extends Component {
                     name="housing_name"
                     className="form-control"
                     value={housing_name}
+                    required={true}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"address"}>Address:</label>
@@ -51,6 +52,7 @@ class HousingForm extends Component {
                     name="address"
                     className="form-control"
                     value={address}
+                    required={true}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"city"}>City:</label>
@@ -59,6 +61,7 @@ class HousingForm extends Component {
                     name="city"
                     className="form-control"
                     value={city}
+                    required={true}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"description"}>Description:</label>
@@ -67,6 +70,7 @@ class HousingForm extends Component {
                     name="description"
                     className="form-control"
                     value={description}
+                    required={true}
                     onChange={this.handleChange}
                 />
                 <label htmlFor={"img_url"}>Image Url:</label>
@@ -75,6 +79,7 @@ class HousingForm extends Component {
                     name="img_url"
                     className="form-control"
                     value={img_url}
+                    required={true}
                     onChange={this.handleChange}
                 />
                 <button type={"submit"} className={"btn btn-success"} style={{"marginTop": 10}}>

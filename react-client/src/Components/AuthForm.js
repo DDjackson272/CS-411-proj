@@ -55,6 +55,7 @@ export default class AuthForm extends Component {
                                    name="email"
                                    type={"email"}
                                    value={email}
+                                   required={true}
                                    onChange={this.handleChange}
                             />
                             <label htmlFor={"password"}>Password:</label>
@@ -62,6 +63,7 @@ export default class AuthForm extends Component {
                                    id={"password"}
                                    name="password"
                                    type={"password"}
+                                   required={true}
                                    onChange={this.handleChange}
                             />
                             {signUp && (
@@ -72,6 +74,7 @@ export default class AuthForm extends Component {
                                            name="username"
                                            type={"text"}
                                            value={username}
+                                           required={true}
                                            onChange={this.handleChange}
                                     />
                                     <label htmlFor={"img"}>Profile Image Url:</label>
@@ -80,6 +83,7 @@ export default class AuthForm extends Component {
                                            name="img"
                                            type={"text"}
                                            value={img}
+                                           required={true}
                                            onChange={this.handleChange}
                                     />
                                 </div>
