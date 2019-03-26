@@ -64,6 +64,7 @@ export const fetchSingleHousing = (username, housing_id) => {
 };
 
 export const postHousings = data => (dispatch, getState) => {
+    console.log(data);
     let {currentUser} = getState();
     const username = currentUser.user.username;
     return apiCall("post", `/api/user/${username}/housing`, {username, ...data})

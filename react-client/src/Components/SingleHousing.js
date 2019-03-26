@@ -15,6 +15,7 @@ class SingleHousing extends Component {
                 <li>{h.housing_name}</li>
                 <li>{h.address}</li>
                 <li>{h.city}</li>
+                <li>{h.housing_type}</li>
                 <li>{h.description}</li>
                 <img src={h.img_url} alt={h.housing_name}/>
                 {currentUser.user.username === h.username && (

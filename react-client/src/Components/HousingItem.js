@@ -3,24 +3,23 @@ import Moment from 'react';
 import {Link} from 'react-router-dom';
 
 
-const HousingItem = ({housing_id, housing_name,
-                         username, removeHousings, img_url}) => (
-    <div>
-        <li className="list-group-item">
-            <img
-                src={img_url}
-                alt={username}
-                className={"timeline-image"}
-            />
-            <div>
-                {housing_name}.
+const HousingItem = ({
+                         housing_id, housing_name, housing_type,
+                         username, removeHousings, img_url
+                     }) => (
+    <div className={"col-md-3 col-sm-6"}>
+        <div className="img-thumbnail housing-item">
+            <img src={img_url} style={{"width": "100%"}}/>
+            <div className={"caption"}>
+                {housing_name}, {housing_type}
             </div>
-            <div>
-                <Link to={`/user/${username}/housing/${housing_id}`} className={"btn btn-primary"}>
+            <div style={{"padding": "10px 20px 10px 20px"}}>
+                <Link to={`/user/${username}/housing/${housing_id}`}
+                      className={"btn btn-primary"}>
                     Read
                 </Link>
             </div>
-        </li>
+        </div>
     </div>
 );
 

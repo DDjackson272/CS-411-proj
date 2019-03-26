@@ -35,7 +35,8 @@ exports.createHousing = function(req, res, next){
         username: req.params.username,
         housing_name: req.body.housing_name,
         description: req.body.description,
-        img_url: req.body.img_url
+        img_url: req.body.img_url,
+        housing_type: req.body.housing_type
     };
 
     db.query('insert into Housing set ?', housing, function (err) {
@@ -113,7 +114,8 @@ exports.updateHousing = function(req, res, next){
         username: req.params.username,
         housing_name: req.body.housing_name,
         description: req.body.description,
-        img_url: req.body.img_url
+        img_url: req.body.img_url,
+        housing_type: req.body.housing_type
     };
 
     let updateHousing = `UPDATE Housing SET ? WHERE housing_id=${req.params.housing_id}`;

@@ -10,7 +10,8 @@ class HousingForm extends Component {
             city: "",
             housing_name: "",
             description: "",
-            img_url: ""
+            img_url: "",
+            housing_type: ""
         };
     }
 
@@ -29,7 +30,7 @@ class HousingForm extends Component {
     };
 
     render(){
-        const {housing_name, address, city, description, img_url} = this.state;
+        const {housing_name, address, city, description, img_url, housing_type} = this.state;
         return (
             <form onSubmit={this.handleNewHousing}>
                 {this.props.errors.message && (
@@ -64,21 +65,31 @@ class HousingForm extends Component {
                     required={true}
                     onChange={this.handleChange}
                 />
-                <label htmlFor={"description"}>Description:</label>
-                <input
-                    type="text"
-                    name="description"
+                <label htmlFor={"housing_type"}>Type:</label>
+                <select
+                    name="housing_type"
                     className="form-control"
-                    value={description}
+                    value={housing_type}
                     required={true}
-                    onChange={this.handleChange}
-                />
+                    onChange={this.handleChange}>
+                    <option value=""/>
+                    <option value="home stay">home stay</option>
+                    <option value="hotel">hotel</option>
+                </select>
                 <label htmlFor={"img_url"}>Image Url:</label>
                 <input
-                    type="text"
+                    type="url"
                     name="img_url"
                     className="form-control"
                     value={img_url}
+                    required={true}
+                    onChange={this.handleChange}
+                />
+                <label htmlFor={"description"}>Description:</label>
+                <textarea
+                    name="description"
+                    className="form-control"
+                    value={description}
                     required={true}
                     onChange={this.handleChange}
                 />

@@ -41,9 +41,24 @@ let housing = "create table Housing (" +
     "username varchar(255) NOT NULL," +
     "address varchar(255) NOT NULL UNIQUE," +
     "city varchar(255) NOT NULL," +
+    "housing_type varchar(255) NOT NULL," +
     "description varchar(1024) NOT NULL, " +
     "img_url varchar(1024) NOT NULL, " +
     "PRIMARY KEY (housing_id)," +
+    "FOREIGN KEY (username) REFERENCES User (username)" +
+    ");";
+
+let activity = "create table Activity (" +
+    "activity_id int NOT NULL AUTO_INCREMENT," +
+    "activity_name varchar(255) NOT NULL," +
+    "username varchar(255) NOT NULL," +
+    "address varchar(255) NOT NULL," +
+    "city varchar(255) NOT NULL," +
+    "type varchar(255) NOT NULL," +
+    "description varchar(1024) NOT NULL," +
+    "date DATE NOT NULL," +
+    "img_url varchar(1024) NOT NULL," +
+    "PRIMARY KEY (activity_id)," +
     "FOREIGN KEY (username) REFERENCES User (username)" +
     ");";
 
@@ -57,6 +72,12 @@ connection.query(housing, function(err){
    if (err) {
        console.log(err.message)
    }
+});
+
+connection.query(activity, function(err){
+    if(err) {
+        console.log(err.message);
+    }
 });
 
 module.exports = connection;

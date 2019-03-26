@@ -22,6 +22,7 @@ class HousingList extends Component {
                 key={index}
                 housing_name={h.housing_name}
                 username={h.username}
+                housing_type={h.housing_type}
                 img_url={h.img_url}
                 housing_id={h.housing_id}
             />
@@ -30,17 +31,13 @@ class HousingList extends Component {
         return (
             <div>
                 <div>
-                    { housingList.length > 0 && <h4> Housing distribution </h4>}
+                    {housingList.length > 0 && <h4> Housing distribution </h4>}
                     <ul>
                         {groupbyList}
                     </ul>
                 </div>
-                <div className={"row col-sm-8"}>
-                    <div className="offset-1 com-sm-10">
-                        <ul className="list-group" id="housings">
-                            {housingList}
-                        </ul>
-                    </div>
+                <div className="row text-center" id="housings">
+                    {housingList}
                 </div>
             </div>
         );

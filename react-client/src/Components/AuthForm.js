@@ -81,7 +81,7 @@ export default class AuthForm extends Component {
                                     <input className="form-control"
                                            id={"img"}
                                            name="img"
-                                           type={"text"}
+                                           type={"url"}
                                            value={img}
                                            required={true}
                                            onChange={this.handleChange}
