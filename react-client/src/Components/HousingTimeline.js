@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {Component} from 'react';
 import HousingList from "../Containers/HousingList"
 
-const HousingTimeline = () => {
-    return (
-        <div>
-            <HousingList />
-        </div>
-    );
-};
+class HousingTimeline extends Component{
+    constructor(props) {
+        super(props);
+    }
+
+    render(){
+        return (
+            <div>
+                <HousingList
+                    {...this.props}
+                />
+            </div>
+        )
+    }
+
+}
 
 export default HousingTimeline;

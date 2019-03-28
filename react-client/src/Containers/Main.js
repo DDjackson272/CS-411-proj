@@ -64,7 +64,11 @@ const Main = props => {
                 />
                 <Route
                     exact path={"/housing/:keyword"}
-                    component={SearchHousing}
+                    render={props =>
+                        <SearchHousing
+                            {...props}
+                        />
+                    }
                 />
             </Switch>
         </div>

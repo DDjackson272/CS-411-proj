@@ -14,19 +14,16 @@ class SearchHousing extends Component{
 
     componentDidMount(){
         this.props.fetchSearchHousing(this.props.match.params.keyword)
-            .then(res => this.setState(res.housings))
-            .catch(err => console.log(err))
     }
 
-    componentWillReceiveProps(newProps){
-        this.props.fetchSearchHousing(newProps.match.params.keyword)
-            .then(res => this.setState(res.housings))
-            .catch(err => console.log(err))
-    }
+    // componentWillUpdate(newProps){
+    //     this.props.fetchSearchHousing(newProps.match.params.keyword)
+    // }
 
 
     render(){
         let {housings} = this.props;
+
         let housingList = housings.map((h, index) => (
             <HousingItem
                 key={index}
@@ -39,7 +36,7 @@ class SearchHousing extends Component{
         ));
         return (
             <div>
-                <SearchComponent/>
+                <SearchComponent {...this.props}/>
                 <div className="row text-center" id="housings">
                     {housingList}
                 </div>

@@ -14,9 +14,6 @@ class HousingForm extends Component {
             housing_type: ""
         };
     }
-    componentWillReceiveProps(newProps){
-        console.log(newProps);
-    }
 
     handleChange = (e) => {
         this.setState({

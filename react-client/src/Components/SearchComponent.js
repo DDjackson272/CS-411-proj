@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 
 class SearchComponent extends Component{
@@ -16,22 +15,29 @@ class SearchComponent extends Component{
         })
     };
 
+    handleSearch = event => {
+        event.preventDefault();
+        this.props.history.push(`/housing/${this.state.keyword}`)
+    };
+
     render(){
         let {keyword} = this.state;
         return (
             <div>
-                <label htmlFor={"search"}>Search for housing:</label>
-                <input
-                    type="text"
-                    name="keyword"
-                    className="form-control"
-                    value={keyword}
-                    required={true}
-                    onChange={this.handleChange}
-                />
-                <Link to={`/housing/${keyword}`} className={"btn btn-primary"}>
-                    Feeling Lucky
-                </Link>
+                <form onSubmit={this.handleSearch}>
+                    <label htmlFor={"search"}>Search for housing:</label>
+                    <input
+                        type="text"
+                        name="keyword"
+                        className="form-control"
+                        value={keyword}
+                        required={true}
+                        onChange={this.handleChange}
+                    />
+                    <button type={"submit"} className={"btn btn-success"} style={{"margin": 10}}>
+                        Feeling Lucky
+                    </button>
+                </form>
             </div>
         )
     }

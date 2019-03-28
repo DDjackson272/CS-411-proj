@@ -30,7 +30,9 @@ class HousingList extends Component {
 
         return (
             <div>
-                <SearchComponent />
+                <SearchComponent
+                    {...this.props}
+                />
                 <div>
                     {housingList.length > 0 && <h4> Housing distribution </h4>}
                     <ul>
