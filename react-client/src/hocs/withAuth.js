@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {removeError} from "../store/actions/errors";
 
 export function withAuth(ComponentToBeRendered) {
     class Authenticate extends Component {
@@ -16,7 +17,10 @@ export function withAuth(ComponentToBeRendered) {
         }
 
         render() {
-            return <ComponentToBeRendered {...this.props} />
+            return <ComponentToBeRendered
+                removeError={removeError}
+                {...this.props}
+            />
         }
     }
 
@@ -26,5 +30,5 @@ export function withAuth(ComponentToBeRendered) {
         }
     }
 
-    return connect(mapStateToProps)(Authenticate);
+    return connect(mapStateToProps, {removeError})(Authenticate);
 }

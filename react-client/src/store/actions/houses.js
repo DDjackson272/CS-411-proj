@@ -38,7 +38,6 @@ export const removeHousings = (username, housing_id) => {
 
 export const putHousings = (username, housing_id, data) => {
     return dispatch => {
-        console.log(data);
         return apiCall("put", `/api/user/${username}/housing/${housing_id}`, data)
             .then(res => console.log(res.error.message))
             .catch(err => dispatch(addError(err.message)))
@@ -69,7 +68,7 @@ export const fetchSingleHousing = (username, housing_id) => {
     }
 };
 
-export const fetchSearchHousing = (keyword) => {
+export const fetchSearchHousing = keyword => {
   return dispatch => {
       return apiCall("get", `/api/housing/search/${keyword}`)
           .then(res => dispatch(loadSearchHousing(res)))
@@ -78,7 +77,6 @@ export const fetchSearchHousing = (keyword) => {
 };
 
 export const postHousings = data => (dispatch, getState) => {
-    console.log(data);
     let {currentUser} = getState();
     const username = currentUser.user.username;
     return apiCall("post", `/api/user/${username}/housing`, {username, ...data})

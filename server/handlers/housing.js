@@ -136,6 +136,9 @@ exports.updateHousing = function(req, res, next){
 
     db.query(updateHousing, housing, function(err){
         if (err) {
+            if (err.errno === 1062) {
+                err.message = "This address is recorded already.";
+            }
             return next(err);
         } else {
             return next({

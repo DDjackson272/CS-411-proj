@@ -1,13 +1,22 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {putHousings} from "../store/actions/houses";
+import {putHousings, fetchSingleHousing} from "../store/actions/houses";
+
 
 class HousingForm extends Component {
 
+     componentDidMount(){
+         let user = this.props.match.params.username;
+         let h_id = this.props.match.params.housing_id;
+         this.props.fetchSingleHousing(user, h_id)
+             .then(res => {
+                 this.setState(res.housings)
+             })
+     }
+
     constructor(props){
         super(props);
-
-        let myHouse = {
+        this.state = {
             address: "",
             city: "",
             housing_name: "",
@@ -15,17 +24,6 @@ class HousingForm extends Component {
             img_url: "",
             housing_type: ""
         };
-
-        props.housings.forEach( element => {
-            if (element.housing_id === parseInt(props.match.params.housing_id)) {
-                myHouse = Object.assign(myHouse, element);
-            }
-        });
-
-        this.state = myHouse;
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleNewHousing = this.handleNewHousing.bind(this);
     }
 
     handleChange = (e) => {
@@ -36,15 +34,25 @@ class HousingForm extends Component {
 
     handleNewHousing = event => {
         event.preventDefault();
-        this.props.putHousings(this.props.match.params.username, this.props.match.params.housing_id, this.state);
-        if (this.props.errors.message === null)
-            this.props.history.push(`/user/${this.props.match.params.username}/housing/${this.props.match.params.housing_id}`);
+        this.props.putHousings(this.props.match.params.username, this.props.match.params.housing_id, this.state)
+            .then(res => {
+                if (!res){
+                    this.props.history.push(
+                        `/user/${this.props.match.params.username}/housing/${this.props.match.params.housing_id}`);
+                }
+            });
         this.setState({});
     };
 
     render(){
 
         let {housing_name, address, city, description, img_url, housing_type} = this.state;
+
+        let {history, removeError} = this.props;
+
+        history.listen(() => {
+            removeError();
+        });
 
         return (
             <form onSubmit={this.handleNewHousing}>
@@ -58,7 +66,7 @@ class HousingForm extends Component {
                     type="text"
                     name="housing_name"
                     className="form-control"
-                    defaultValue={housing_name}
+                    value={housing_name}
                     required={true}
                     onChange={this.handleChange}
                 />
@@ -67,7 +75,7 @@ class HousingForm extends Component {
                     type="text"
                     name="address"
                     className="form-control"
-                    defaultValue={address}
+                    value={address}
                     required={true}
                     onChange={this.handleChange}
                 />
@@ -76,7 +84,7 @@ class HousingForm extends Component {
                     type="text"
                     name="city"
                     className="form-control"
-                    defaultValue={city}
+                    value={city}
                     required={true}
                     onChange={this.handleChange}
                 />
@@ -95,7 +103,7 @@ class HousingForm extends Component {
                     type="url"
                     name="img_url"
                     className="form-control"
-                    defaultValue={img_url}
+                    value={img_url}
                     required={true}
                     onChange={this.handleChange}
                 />
@@ -103,7 +111,7 @@ class HousingForm extends Component {
                 <textarea
                     name="description"
                     className="form-control"
-                    defaultValue={description}
+                    value={description}
                     required={true}
                     onChange={this.handleChange}
                 />
@@ -122,4 +130,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {putHousings})(HousingForm);
+export default connect(mapStateToProps, {putHousings, fetchSingleHousing})(HousingForm);

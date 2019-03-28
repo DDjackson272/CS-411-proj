@@ -14,6 +14,9 @@ class HousingForm extends Component {
             housing_type: ""
         };
     }
+    componentWillReceiveProps(newProps){
+        console.log(newProps);
+    }
 
     handleChange = (e) => {
         this.setState({
@@ -23,14 +26,23 @@ class HousingForm extends Component {
 
     handleNewHousing = event => {
         event.preventDefault();
-        this.props.postHousings(this.state);
-        if (this.props.errors.message === null)
-            this.props.history.push("/");
-        this.setState({});
+        this.props.postHousings(this.state)
+            .then(res => {
+                if (!res){
+                    this.props.history.push("/");
+                }
+            })
     };
 
     render(){
         const {housing_name, address, city, description, img_url, housing_type} = this.state;
+
+        let {history, removeError} = this.props;
+
+        history.listen(() => {
+            removeError();
+        });
+
         return (
             <form onSubmit={this.handleNewHousing}>
                 {this.props.errors.message && (
