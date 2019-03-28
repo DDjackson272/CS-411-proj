@@ -16,10 +16,10 @@ class SearchHousing extends Component{
         this.props.fetchSearchHousing(this.props.match.params.keyword)
     }
 
-    // componentWillUpdate(newProps){
-    //     this.props.fetchSearchHousing(newProps.match.params.keyword)
-    // }
-
+    componentWillReceiveProps(nextProp) {
+        if (this.props.match.params.keyword !== nextProp.match.params.keyword)
+            this.props.fetchSearchHousing(nextProp.match.params.keyword)
+    }
 
     render(){
         let {housings} = this.props;
