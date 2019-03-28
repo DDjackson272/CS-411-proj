@@ -9,6 +9,7 @@ import {withAuth} from "../hocs/withAuth";
 import HousingForm from "../Containers/HousingForm";
 import UpdateHousingForm from "../Containers/UpdateHousingForm";
 import SingleHousing from "../Components/SingleHousing";
+import SearchHousing from "../Components/SearchHousing";
 
 const Main = props => {
     const {authUser, errors, removeError, currentUser} = props;
@@ -60,6 +61,10 @@ const Main = props => {
                                 {...props}/>
                         )
                     }}
+                />
+                <Route
+                    exact path={"/housing/:keyword"}
+                    component={SearchHousing}
                 />
             </Switch>
         </div>

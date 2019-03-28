@@ -1,6 +1,7 @@
 import {apiCall} from "../../services/api";
 import {addError} from "./errors";
-import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_GROUPBY_HOUSING, LOAD_SINGLE_HOUSING} from "../actionTypes";
+import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_GROUPBY_HOUSING,
+    LOAD_SINGLE_HOUSING, LOAD_SEARCH_HOUSING} from "../actionTypes";
 
 export const loadHousing = housings => ({
     type: LOAD_HOUSING,
@@ -19,6 +20,11 @@ export const loadGroupbyHousing = groupbyHousings => ({
 
 export const loadSingleHousing = housings => ({
     type: LOAD_SINGLE_HOUSING,
+    housings
+});
+
+export const loadSearchHousing = housings => ({
+    type:LOAD_SEARCH_HOUSING,
     housings
 });
 
@@ -61,6 +67,14 @@ export const fetchSingleHousing = (username, housing_id) => {
             .then(res => dispatch(loadSingleHousing(res)))
             .catch(err => dispatch(addError(err.message)))
     }
+};
+
+export const fetchSearchHousing = (keyword) => {
+  return dispatch => {
+      return apiCall("get", `/api/housing/search/${keyword}`)
+          .then(res => dispatch(loadSearchHousing(res)))
+          .catch(err => dispatch(addError(err.message)))
+  }  
 };
 
 export const postHousings = data => (dispatch, getState) => {

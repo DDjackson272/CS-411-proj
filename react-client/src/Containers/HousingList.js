@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {fetchHousings, fetchGroupByHousing} from "../store/actions/houses";
 import HousingItem from "../Components/HousingItem"
-import {Link} from 'react-router-dom';
+import SearchComponent from "../Components/SearchComponent";
 
 class HousingList extends Component {
     componentDidMount() {
@@ -30,6 +30,7 @@ class HousingList extends Component {
 
         return (
             <div>
+                <SearchComponent />
                 <div>
                     {housingList.length > 0 && <h4> Housing distribution </h4>}
                     <ul>

@@ -39,13 +39,13 @@ app.get("/api/housing", async function (req, res, next) {
     });
 });
 
-app.get("api/housing/search/:keyword", function(req, res, next){
+app.get("/api/housing/search/:keyword", function(req, res, next){
     let findHouse = `Select * from Housing ` +
-        `Where housing_name like "%${req.params.keyword}" or ` +
-        `address like "%${req.params.keyword}" or ` +
-        `city like "%${req.params.keyword}" or ` +
-        `housing_type like "%${req.params.keyword}" or ` +
-        `description like "%${req.params.keyword}";`
+        `Where housing_name like "%${req.params.keyword}%" or ` +
+        `address like "%${req.params.keyword}%" or ` +
+        `city like "%${req.params.keyword}%" or ` +
+        `housing_type like "%${req.params.keyword}%" or ` +
+        `description like "%${req.params.keyword}%";`;
 
     db.query(findHouse, function(err, results){
         if (err){

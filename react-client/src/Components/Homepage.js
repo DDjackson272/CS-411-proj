@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import HousingTimeline from "./HousingTimeline"
+import SearchComponent from "./SearchComponent"
 
 const Homepage = ({currentUser}) => {
     if (!currentUser.isAuthenticated){
