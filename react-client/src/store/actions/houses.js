@@ -1,7 +1,6 @@
 import {apiCall} from "../../services/api";
 import {addError} from "./errors";
-import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_GROUPBY_HOUSING,
-    LOAD_SINGLE_HOUSING, LOAD_SEARCH_HOUSING} from "../actionTypes";
+import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_SINGLE_HOUSING, LOAD_SEARCH_HOUSING} from "../actionTypes";
 
 export const loadHousing = housings => ({
     type: LOAD_HOUSING,
@@ -11,11 +10,6 @@ export const loadHousing = housings => ({
 export const remove = housing_id => ({
     type: REMOVE_HOUSING,
     housing_id
-});
-
-export const loadGroupbyHousing = groupbyHousings => ({
-    type: LOAD_GROUPBY_HOUSING,
-    groupbyHousings
 });
 
 export const loadSingleHousing = housings => ({
@@ -48,14 +42,6 @@ export const fetchHousings = () => {
     return dispatch => {
         return apiCall("get", "/api/housing")
             .then(res => dispatch(loadHousing(res)))
-            .catch(err => dispatch(addError(err.message)))
-    }
-};
-
-export const fetchGroupByHousing = () => {
-    return dispatch => {
-        return apiCall("get", "/api/housing/analysis")
-            .then(res => dispatch(loadGroupbyHousing(res)))
             .catch(err => dispatch(addError(err.message)))
     }
 };

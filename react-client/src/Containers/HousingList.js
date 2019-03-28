@@ -1,21 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchHousings, fetchGroupByHousing} from "../store/actions/houses";
+import {fetchHousings} from "../store/actions/houses";
 import HousingItem from "../Components/HousingItem"
 import SearchComponent from "../Components/SearchComponent";
 
 class HousingList extends Component {
     componentDidMount() {
         this.props.fetchHousings();
-        this.props.fetchGroupByHousing();
     }
 
     render() {
-        const {groupbyHousings, housings} = this.props;
-
-        let groupbyList = groupbyHousings.map((g, index) => (
-            <li key={index}>{g.city}: {g.housing_number}</li>
-        ));
+        const {housings} = this.props;
 
         let housingList = housings.map((h, index) => (
             <HousingItem
@@ -33,12 +28,6 @@ class HousingList extends Component {
                 <SearchComponent
                     {...this.props}
                 />
-                <div>
-                    {housingList.length > 0 && <h4> Housing distribution </h4>}
-                    <ul>
-                        {groupbyList}
-                    </ul>
-                </div>
                 <div className="row text-center" id="housings">
                     {housingList}
                 </div>
@@ -55,5 +44,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps,
-    {fetchHousings, fetchGroupByHousing})(HousingList);
+export default connect(mapStateToProps, {fetchHousings})(HousingList);
