@@ -5,7 +5,7 @@ const {loginRequired, ensureCorrectUser} = require("../middleware/auth");
 
 router.route("/")
     .get(loginRequired, showHousing)
-    .post(loginRequired, ensureCorrectUser, createHousing);
+    .post(loginRequired, createHousing);
 router.route("/:housing_id")
     .get(loginRequired, getHousing)
     .delete(loginRequired, ensureCorrectUser, deleteHousing)
