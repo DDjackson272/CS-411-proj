@@ -23,17 +23,17 @@ exports.showHousing = function (req, res, next) {
                     status: 404,
                     message: "No user record available!"
                 })
+            } else {
+                db.query(findAllHousing, function (hErr, hResults) {
+                    if (hErr) {
+                        return next(hErr);
+                    } else {
+                        return res.status(200).json(hResults)
+                    }
+                })
             }
         }
     });
-
-    db.query(findAllHousing, async function (err, results) {
-        if (err) {
-            return next(err);
-        } else {
-            return res.status(200).json(results)
-        }
-    })
 };
 
 // /api/user/:username/housing
@@ -101,21 +101,21 @@ exports.getHousing = function (req, res, next) {
                     status: 400,
                     message: "No user record available!"
                 })
-            }
-        }
-    });
-
-    db.query(findHousing, function (err, results) {
-        if (err) {
-            return next(err);
-        } else {
-            if (results.length === 0) {
-                return next({
-                    status: 400,
-                    message: "No housing record available!"
-                })
             } else {
-                return res.status(200).json(results[0])
+                db.query(findHousing, function (hErr, hResults) {
+                    if (hErr) {
+                        return next(hErr);
+                    } else {
+                        if (hResults.length === 0) {
+                            return next({
+                                status: 400,
+                                message: "No housing record available!"
+                            })
+                        } else {
+                            return res.status(200).json(hResults[0])
+                        }
+                    }
+                });
             }
         }
     });
@@ -169,36 +169,36 @@ exports.updateHousing = function (req, res, next) {
                     status: 400,
                     message: "No user record available!"
                 })
+            } else {
+                db.query(putHousing, housing, function (hErr) {
+                    if (hErr) {
+                        return next(hErr);
+                    } else {
+                        let address = `${req.body.address}, ${req.body.city}, Illinois`;
+                        geocoder.geocode(address, function (error, gResult) {
+                            if (error) {
+                                return next(error)
+                            } else {
+                                let coordinate = {
+                                    latitude: gResult[0].latitude,
+                                    longitude: gResult[0].longitude,
+                                    housing_id: req.params.housing_id
+                                };
+                                db.query(putCoordinate, coordinate, function (cErr) {
+                                    if (cErr) {
+                                        return next(cErr);
+                                    } else {
+                                        return next({
+                                            status: 200,
+                                            message: "Successfully modify a coordinate!"
+                                        })
+                                    }
+                                })
+                            }
+                        });
+                    }
+                })
             }
         }
     });
-
-    db.query(putHousing, housing, function (err) {
-        if (err) {
-            return next(err);
-        } else {
-            let address = `${req.body.address}, ${req.body.city}, Illinois`;
-            geocoder.geocode(address, function (error, gResult) {
-                if (error) {
-                    return next(error)
-                } else {
-                    let coordinate = {
-                        latitude: gResult[0].latitude,
-                        longitude: gResult[0].longitude,
-                        housing_id: req.params.housing_id
-                    };
-                    db.query(putCoordinate, coordinate, function (cErr) {
-                        if (cErr) {
-                            return next(cErr);
-                        } else {
-                            return next({
-                                status: 200,
-                                message: "Successfully modify a coordinate!"
-                            })
-                        }
-                    })
-                }
-            });
-        }
-    })
 };
