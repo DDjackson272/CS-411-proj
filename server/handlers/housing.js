@@ -50,9 +50,6 @@ exports.createHousing = function (req, res, next) {
 
     db.query('insert into Housing set ?', housing, function (err, qResult) {
         if (err) {
-            if (err.errno === 1062) {
-                err.message = "This address is recorded already.";
-            }
             return next({
                 status: 400,
                 message: err.message
