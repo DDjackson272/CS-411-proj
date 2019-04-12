@@ -11,13 +11,22 @@ class SingleHousing extends Component {
     render(){
         let {housings, currentUser, removeHousings} = this.props;
         let housingDetail = housings.map((h, index) => (
-            <ul key={index}>
-                <li>{h.housing_name}</li>
-                <li>{h.address}</li>
-                <li>{h.city}</li>
-                <li>{h.housing_type}</li>
-                <li>{h.description}</li>
-                <img src={h.img_url} alt={h.housing_name}/>
+            <div key={index}>
+                {index === 0 && (
+                    <ul>
+                        <li>{h.housing_name}</li>
+                        <li>{h.address}</li>
+                        <li>{h.city}</li>
+                        <li>{h.housing_type}</li>
+                        <li>{h.description}</li>
+                        <img src={h.img_url} alt={h.housing_name} width="500"/>
+                    </ul>
+                )}
+
+                {h.content && (
+                    <li>{h.content}</li>
+                )}
+
                 {currentUser.user.username === h.username && (
                     <div>
                         <div>
@@ -36,7 +45,7 @@ class SingleHousing extends Component {
                         </div>
                     </div>
                 )}
-            </ul>
+            </div>
         ));
         return (
             <div>
