@@ -86,8 +86,9 @@ exports.createHousing = function (req, res, next) {
 
 // /api/user/:username/housing/:housing_id
 exports.getHousing = function (req, res, next) {
-    let findHousing = `select * from Housing where housing_id=${req.params.housing_id};`;
     let findUser = `select * from User where username="${req.params.username}";`;
+    let findHousingComment = `select * from (select * from Housing where housing_id=${req.params.housing_id}) 
+    as singleHouse left join Comment on singleHouse.housing_id=Comment.housing_id`;
 
     db.query(findUser, function (err, results) {
         if (err) {
@@ -99,7 +100,7 @@ exports.getHousing = function (req, res, next) {
                     message: "No user record available!"
                 })
             } else {
-                db.query(findHousing, function (hErr, hResults) {
+                db.query(findHousingComment, function (hErr, hResults) {
                     if (hErr) {
                         return next(hErr);
                     } else {
@@ -109,7 +110,7 @@ exports.getHousing = function (req, res, next) {
                                 message: "No housing record available!"
                             })
                         } else {
-                            return res.status(200).json(hResults[0])
+                            return res.status(200).json(hResults)
                         }
                     }
                 });

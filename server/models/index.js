@@ -71,6 +71,16 @@ let coordination = "create table Coordinate (" +
     "FOREIGN KEY (housing_id) REFERENCES Housing (housing_id)" +
     ");";
 
+let comment = "create table Comment (" +
+    "comment_id int NOT NULL AUTO_INCREMENT," +
+    "housing_id int NOT NULL, " +
+    "user_id int NOT NULL, " +
+    "content varchar(1024) NOT NULL," +
+    "PRIMARY KEY (comment_id)," +
+    "FOREIGN KEY (housing_id) REFERENCES Housing (housing_id)," +
+    "FOREIGN KEY (user_id) REFERENCES User (user_id)" +
+    ");";
+
 connection.query(user, function(err){
     if (err) {
         console.log(err.message);
@@ -91,6 +101,12 @@ connection.query(activity, function(err){
 
 connection.query(coordination, function(err){
     if(err) {
+        console.log(err.message);
+    }
+});
+
+connection.query(comment, function(err){
+    if(err){
         console.log(err.message);
     }
 });
