@@ -10,7 +10,7 @@ class HousingForm extends Component {
          let h_id = this.props.match.params.housing_id;
          this.props.fetchSingleHousing(user, h_id)
              .then(res => {
-                 this.setState(res.housings)
+                 this.setState(res.housings[0])
              })
      }
 

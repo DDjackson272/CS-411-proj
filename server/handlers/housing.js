@@ -87,8 +87,11 @@ exports.createHousing = function (req, res, next) {
 // /api/user/:username/housing/:housing_id
 exports.getHousing = function (req, res, next) {
     let findUser = `select * from User where username="${req.params.username}";`;
-    let findHousingComment = `select * from (select * from Housing where housing_id=${req.params.housing_id}) 
-    as singleHouse left join Comment on singleHouse.housing_id=Comment.housing_id`;
+    let findHousingComment = `select singleHouse.housing_id as housing_id, housing_name, username, address, city, 
+    housing_type, description, img_url, comment_id, user_id, content
+    from (select * from Housing where housing_id=${req.params.housing_id}) as singleHouse 
+    left join Comment 
+    on singleHouse.housing_id=Comment.housing_id`;
 
     db.query(findUser, function (err, results) {
         if (err) {
