@@ -14,6 +14,7 @@ class SingleHousing extends Component {
             <div key={index}>
                 {index === 0 && (
                     <div>
+                        Basic Information:
                         <ul>
                             <li>{h.housing_name}</li>
                             <li>{h.address}</li>
@@ -21,25 +22,28 @@ class SingleHousing extends Component {
                             <li>{h.housing_type}</li>
                             <li>{h.description}</li>
                             <img src={h.img_url} alt={h.housing_name} width="500"/>
+                            {currentUser.user.username === h.username && (
+                                <div style={{"margin-top": 10}}>
+                                    <div>
+                                        <Link className={"btn btn-danger"}
+                                              onClick={removeHousings.bind(this, h.username, h.housing_id)}
+                                              to={"/"}>
+                                            Delete
+                                        </Link>
+                                    </div>
+                                    <div>
+                                        <Link to={`/user/${h.username}/housing/${h.housing_id}/update`}
+                                              className={"btn btn-warning"}
+                                              style={{"marginTop": 10}}>
+                                            Modify
+                                        </Link>
+                                    </div>
+                                </div>
+                            )}
                         </ul>
-                        {currentUser.user.username === h.username && (
-                            <div>
-                                <div>
-                                    <Link className={"btn btn-danger"}
-                                    onClick={removeHousings.bind(this, h.username, h.housing_id)}
-                                    to={"/"}>
-                                    Delete
-                                    </Link>
-                                </div>
-                                <div>
-                                    <Link to={`/user/${h.username}/housing/${h.housing_id}/update`}
-                                    className={"btn btn-warning"}
-                                    style={{"marginTop": 10}}>
-                                    Modify
-                                    </Link>
-                                </div>
-                            </div>
-                        )}
+                        <div>
+                            Comments:
+                        </div>
                     </div>
                 )}
 
