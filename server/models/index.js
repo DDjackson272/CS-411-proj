@@ -73,30 +73,30 @@ let coordination = "create table Coordinate (" +
 
 let comment = "create table Comment (" +
     "comment_id int NOT NULL AUTO_INCREMENT," +
-    "housing_id int NOT NULL, " +
-    "user_id int NOT NULL, " +
+    "comment_housing_id int NOT NULL, " +
+    "comment_user_id int NOT NULL, " +
     "content varchar(1024) NOT NULL," +
     "PRIMARY KEY (comment_id)," +
-    "FOREIGN KEY (housing_id) REFERENCES Housing (housing_id)," +
-    "FOREIGN KEY (user_id) REFERENCES User (user_id)" +
+    "FOREIGN KEY (comment_housing_id) REFERENCES Housing (housing_id)," +
+    "FOREIGN KEY (comment_user_id) REFERENCES User (user_id)" +
     ");";
 
-let sentiment = "create table Sentiment (" +
-    "sentiment_id int NOT NULL AUTO_INCREMENT," +
-    "comment_id int NOT NULL," +
-    "sentiment_type varchar(1024) NOT NULL," +
-    "PRIMARY KEY (sentiment_id)," +
-    "FOREIGN KEY (comment_id) REFERENCES Comment (comment_id)" +
-    ");";
+// let sentiment = "create table Sentiment (" +
+//     "sentiment_id int NOT NULL AUTO_INCREMENT," +
+//     "comment_id int NOT NULL," +
+//     "sentiment_type varchar(1024) NOT NULL," +
+//     "PRIMARY KEY (sentiment_id)," +
+//     "FOREIGN KEY (sentiment_comment_id) REFERENCES Comment (comment_id)" +
+//     ");";
 
-let wordCloud = "create table Wordcloud (" +
-    "wordcloud_id int NOT NULL AUTO_INCREMENT," +
-    "housing_id int NOT NULL," +
-    "wordcloud_type varchar(1024) NOT NULL," +
-    "PRIMARY KEY (wordcloud_id)," +
-    "FOREIGN KEY (housing_id) REFERENCES Housing (housing_id)" +
-    ");";
-
+// let wordCloud = "create table Wordcloud (" +
+//     "wordcloud_id int NOT NULL AUTO_INCREMENT," +
+//     "housing_id int NOT NULL," +
+//     "wordcloud_type varchar(1024) NOT NULL," +
+//     "PRIMARY KEY (wordcloud_id)," +
+//     "FOREIGN KEY (wordcloud_housing_id) REFERENCES Housing (housing_id)" +
+//     ");";
+//
 let recommend = "create table Recommend (" +
     "recommend_id int NOT NULL AUTO_INCREMENT," +
     "username varchar(255) NOT NULL, " +
@@ -136,17 +136,17 @@ connection.query(comment, function(err){
     }
 });
 
-connection.query(sentiment, function(err){
-    if(err){
-        console.log(err.message);
-    }
-});
-
-connection.query(wordCloud, function(err){
-    if(err){
-        console.log(err.message);
-    }
-});
+// connection.query(sentiment, function(err){
+//     if(err){
+//         console.log(err.message);
+//     }
+// });
+//
+// connection.query(wordCloud, function(err){
+//     if(err){
+//         console.log(err.message);
+//     }
+// });
 
 connection.query(recommend, function(err){
     if(err){

@@ -7,7 +7,7 @@ router.route("/")
     .get(loginRequired, showHousing)
     .post(loginRequired, createHousing);
 router.route("/:housing_id")
-    .get(loginRequired, getHousing)
+    .get(getHousing)
     .delete(loginRequired, ensureCorrectUser, deleteHousing)
     .put(loginRequired, ensureCorrectUser, updateHousing);
 
