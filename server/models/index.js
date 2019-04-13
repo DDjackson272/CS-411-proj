@@ -38,14 +38,14 @@ let user = "create table User (" +
 let housing = "create table Housing (" +
     "housing_id int NOT NULL AUTO_INCREMENT," +
     "housing_name varchar(255) NOT NULL,"+
-    "username varchar(255) NOT NULL," +
+    "housing_username varchar(255) NOT NULL," +
     "address varchar(255) NOT NULL," +
     "city varchar(255) NOT NULL," +
     "housing_type varchar(255) NOT NULL," +
     "description varchar(1024) NOT NULL, " +
     "img_url varchar(1024) NOT NULL, " +
     "PRIMARY KEY (housing_id)," +
-    "FOREIGN KEY (username) REFERENCES User (username)" +
+    "FOREIGN KEY (housing_username) REFERENCES User (username)" +
     ");";
 
 let activity = "create table Activity (" +
@@ -99,10 +99,10 @@ let comment = "create table Comment (" +
 //
 let recommend = "create table Recommend (" +
     "recommend_id int NOT NULL AUTO_INCREMENT," +
-    "username varchar(255) NOT NULL, " +
+    "recommend_username varchar(255) NOT NULL, " +
     "recommend_housing_id int NOT NULL," +
     "PRIMARY KEY (recommend_id)," +
-    "FOREIGN KEY (username) REFERENCES User (username)," +
+    "FOREIGN KEY (recommend_username) REFERENCES User (username)," +
     "FOREIGN KEY (recommend_housing_id) REFERENCES Housing (housing_id)" +
     ");";
 

@@ -22,7 +22,7 @@ class SingleHousing extends Component {
                             <li>{h.housing_type}</li>
                             <li>{h.description}</li>
                             <img src={h.img_url} alt={h.housing_name} width="500"/>
-                            {currentUser.user.username === h.username && (
+                            {currentUser.user.username === h.housing_username && (
                                 <div style={{"margin-top": 10}}>
                                     <div>
                                         <Link className={"btn btn-danger"}
@@ -32,7 +32,7 @@ class SingleHousing extends Component {
                                         </Link>
                                     </div>
                                     <div>
-                                        <Link to={`/user/${h.username}/housing/${h.housing_id}/update`}
+                                        <Link to={`/user/${h.housing_username}/housing/${h.housing_id}/update`}
                                               className={"btn btn-warning"}
                                               style={{"marginTop": 10}}>
                                             Modify
