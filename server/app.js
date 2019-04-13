@@ -92,6 +92,26 @@ app.get("/api/activity/search/:keyword", loginRequired, function(req, res, next)
     })
 });
 
+app.get("/api/housing/:username/recommend", function(req, res, next){
+    let findRecommendHousing =
+        `Select *
+        from Recommend join Housing 
+        on Recommend.recommend_housing_id=Housing.housing_id
+        Where Recommend.username="${req.params.username}"`;
+
+    db.query(findRecommendHousing, function(err, results){
+        if(err){
+            return next({
+                status: 400,
+                message: err.message
+            })
+        } else {
+            return res.status(200).json(results);
+        }
+    })
+
+});
+
 app.use(function (req, res, next) {
     return next({
         status: 404,
