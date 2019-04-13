@@ -42,6 +42,9 @@ class SingleHousing extends Component {
                             )}
                         </ul>
                         <div>
+                            Analysis from comments:
+                        </div>
+                        <div>
                             Comments:
                         </div>
                     </div>
@@ -49,8 +52,8 @@ class SingleHousing extends Component {
 
                 {h.content && (
                     <ul>
+                        {h.username}
                         <li>{h.content}</li>
-                        <li>{h.username}</li>
                     </ul>
                 )}
             </div>
