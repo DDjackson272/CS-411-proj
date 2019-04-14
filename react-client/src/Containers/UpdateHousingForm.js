@@ -5,16 +5,16 @@ import {putHousings, fetchSingleHousing} from "../store/actions/houses";
 
 class HousingForm extends Component {
 
-     componentDidMount(){
-         let user = this.props.match.params.username;
-         let h_id = this.props.match.params.housing_id;
-         this.props.fetchSingleHousing(user, h_id)
-             .then(res => {
-                 this.setState(res.housings[0])
-             })
-     }
+    componentDidMount() {
+        let user = this.props.match.params.username;
+        let h_id = this.props.match.params.housing_id;
+        this.props.fetchSingleHousing(user, h_id)
+            .then(res => {
+                this.setState(res.housings[0])
+            })
+    }
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             address: "",
@@ -23,9 +23,9 @@ class HousingForm extends Component {
             description: "",
             img_url: "",
             housing_type: "",
-            parking: "",
-            cooking: "",
-            large_bed: ""
+            parking: 0,
+            cooking: 0,
+            large_bed: 0
         };
     }
 
@@ -35,11 +35,32 @@ class HousingForm extends Component {
         })
     };
 
+    handleCooking = () => {
+        let origin = this.state.cooking;
+        this.setState({
+            cooking: 1-origin
+        })
+    };
+
+    handleParking = () => {
+        let origin = this.state.parking;
+        this.setState({
+            parking: 1-origin
+        })
+    };
+
+    handleLargeBed = () => {
+        let origin = this.state.large_bed;
+        this.setState({
+            large_bed: 1-origin
+        })
+    };
+
     handleNewHousing = event => {
         event.preventDefault();
         this.props.putHousings(this.props.match.params.username, this.props.match.params.housing_id, this.state)
             .then(res => {
-                if (!res){
+                if (!res) {
                     this.props.history.push(
                         `/user/${this.props.match.params.username}/housing/${this.props.match.params.housing_id}`);
                 }
@@ -47,10 +68,12 @@ class HousingForm extends Component {
         this.setState({});
     };
 
-    render(){
+    render() {
 
-        let {housing_name, address, city, description, img_url, housing_type,
-            parking, cooking, large_bed} = this.state;
+        let {
+            housing_name, address, city, description, img_url, housing_type,
+            parking, cooking, large_bed
+        } = this.state;
 
         let {history, removeError} = this.props;
 
@@ -108,24 +131,27 @@ class HousingForm extends Component {
                         type="checkbox"
                         name="parking"
                         value={parking}
-                        onChange={this.handleChange}
-                        style={{"marginLeft":10}}
+                        onChange={this.handleParking}
+                        style={{"marginLeft": 10}}
+                        checked={parking === 1}
                     />
-                    <label htmlFor={"cooking"} style={{"marginLeft":10}}>Cooking:</label>
+                    <label htmlFor={"cooking"} style={{"marginLeft": 10}}>Cooking:</label>
                     <input
                         type="checkbox"
                         name="cooking"
                         value={cooking}
-                        onChange={this.handleChange}
-                        style={{"marginLeft":10}}
+                        onChange={this.handleCooking}
+                        style={{"marginLeft": 10}}
+                        checked={cooking === 1}
                     />
-                    <label htmlFor={"large_bed"} style={{"marginLeft":10}}>Large Bed:</label>
+                    <label htmlFor={"large_bed"} style={{"marginLeft": 10}}>Large Bed:</label>
                     <input
                         type="checkbox"
                         name="large_bed"
                         value={large_bed}
-                        onChange={this.handleChange}
-                        style={{"marginLeft":10}}
+                        onChange={this.handleLargeBed}
+                        style={{"marginLeft": 10}}
+                        checked={large_bed === 1}
                     />
                 </div>
                 <label htmlFor={"img_url"}>Image Url:</label>

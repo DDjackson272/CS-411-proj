@@ -12,9 +12,9 @@ class HousingForm extends Component {
             description: "",
             img_url: "",
             housing_type: "",
-            parking: false,
-            cooking: false,
-            large_bed: false
+            parking: 0,
+            cooking: 0,
+            large_bed: 0
         };
     }
 
@@ -32,6 +32,27 @@ class HousingForm extends Component {
                     this.props.history.push("/");
                 }
             })
+    };
+
+    handleCooking = () => {
+        let origin = this.state.cooking;
+        this.setState({
+            cooking: 1-origin
+        })
+    };
+
+    handleParking = () => {
+        let origin = this.state.parking;
+        this.setState({
+            parking: 1-origin
+        })
+    };
+
+    handleLargeBed = () => {
+        let origin = this.state.large_bed;
+        this.setState({
+            large_bed: 1-origin
+        })
     };
 
     render(){
@@ -95,24 +116,27 @@ class HousingForm extends Component {
                         type="checkbox"
                         name="parking"
                         value={parking}
-                        onChange={this.handleChange}
-                        style={{"marginLeft":10}}
+                        onChange={this.handleParking}
+                        style={{"marginLeft": 10}}
+                        checked={parking === 1}
                     />
-                    <label htmlFor={"cooking"} style={{"marginLeft":10}}>Cooking:</label>
+                    <label htmlFor={"cooking"} style={{"marginLeft": 10}}>Cooking:</label>
                     <input
                         type="checkbox"
                         name="cooking"
                         value={cooking}
-                        onChange={this.handleChange}
-                        style={{"marginLeft":10}}
+                        onChange={this.handleCooking}
+                        style={{"marginLeft": 10}}
+                        checked={cooking === 1}
                     />
-                    <label htmlFor={"large_bed"} style={{"marginLeft":10}}>Large Bed:</label>
+                    <label htmlFor={"large_bed"} style={{"marginLeft": 10}}>Large Bed:</label>
                     <input
                         type="checkbox"
                         name="large_bed"
                         value={large_bed}
-                        onChange={this.handleChange}
-                        style={{"marginLeft":10}}
+                        onChange={this.handleLargeBed}
+                        style={{"marginLeft": 10}}
+                        checked={large_bed === 1}
                     />
                 </div>
                 <label htmlFor={"img_url"}>Image Url:</label>
