@@ -23,10 +23,10 @@ class SingleHousing extends Component {
                             <li>{h.description}</li>
                             <img src={h.img_url} alt={h.housing_name} width="500"/>
                             {currentUser.user.username === h.housing_username && (
-                                <div style={{"margin-top": 10}}>
+                                <div style={{"marginTop": 10}}>
                                     <div>
                                         <Link className={"btn btn-danger"}
-                                              onClick={removeHousings.bind(this, h.username, h.housing_id)}
+                                              onClick={removeHousings.bind(this, h.housing_username, h.housing_id)}
                                               to={"/"}>
                                             Delete
                                         </Link>

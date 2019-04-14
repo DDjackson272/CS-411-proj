@@ -62,15 +62,6 @@ let activity = "create table Activity (" +
     "FOREIGN KEY (username) REFERENCES User (username)" +
     ");";
 
-let coordination = "create table Coordinate (" +
-    "coordinate_id int NOT NULL AUTO_INCREMENT, " +
-    "housing_id int NOT NULL, " +
-    "latitude float(53) NOT NULL, " +
-    "longitude float(53) NOT NULL, " +
-    "PRIMARY KEY (coordinate_id), " +
-    "FOREIGN KEY (housing_id) REFERENCES Housing (housing_id)" +
-    ");";
-
 let comment = "create table Comment (" +
     "comment_id int NOT NULL AUTO_INCREMENT," +
     "comment_housing_id int NOT NULL, " +
@@ -119,12 +110,6 @@ connection.query(housing, function(err){
 });
 
 connection.query(activity, function(err){
-    if(err) {
-        console.log(err.message);
-    }
-});
-
-connection.query(coordination, function(err){
     if(err) {
         console.log(err.message);
     }

@@ -8,7 +8,6 @@ const housingRoutes = require("./routes/housing");
 const activityRoutes = require("./routes/activity");
 const bodyParser = require('body-parser');
 const db = require("./models/index");
-const {loginRequired} = require("./middleware/auth");
 const PORT = 81;
 
 app.set("view engine", "ejs");
@@ -24,7 +23,7 @@ app.use("/api/user/:username/housing", housingRoutes);
 
 app.use("/api/user/:username/activity", activityRoutes);
 
-app.get("/api/housing", loginRequired, function (req, res, next) {
+app.get("/api/housing", function (req, res, next) {
     let findHousing = "SELECT * FROM Housing";
     db.query(findHousing, function (err, results) {
         if (err) {
@@ -38,7 +37,7 @@ app.get("/api/housing", loginRequired, function (req, res, next) {
     });
 });
 
-app.get("/api/activity", loginRequired, function (req, res, next) {
+app.get("/api/activity", function (req, res, next) {
     let findActivity = "SELECT * FROM Activity";
     db.query(findActivity, function (err, results) {
         if (err) {
@@ -52,7 +51,7 @@ app.get("/api/activity", loginRequired, function (req, res, next) {
     });
 });
 
-app.get("/api/housing/search/:keyword", loginRequired, function(req, res, next){
+app.get("/api/housing/search/:keyword", function(req, res, next){
     let findHouse = `Select * from Housing ` +
         `Where housing_name like "%${req.params.keyword}%" or ` +
         `address like "%${req.params.keyword}%" or ` +
@@ -72,7 +71,7 @@ app.get("/api/housing/search/:keyword", loginRequired, function(req, res, next){
     })
 });
 
-app.get("/api/activity/search/:keyword", loginRequired, function(req, res, next){
+app.get("/api/activity/search/:keyword", function(req, res, next){
     let findActivity = `Select * from Activity ` +
         `Where activity_name like "%${req.params.keyword}%" or ` +
         `address like "%${req.params.keyword}%" or ` +
