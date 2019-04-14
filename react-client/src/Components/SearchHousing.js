@@ -28,7 +28,7 @@ class SearchHousing extends Component{
             <HousingItem
                 key={index}
                 housing_name={h.housing_name}
-                username={h.username}
+                housing_username={h.housing_username}
                 housing_type={h.housing_type}
                 img_url={h.img_url}
                 housing_id={h.housing_id}

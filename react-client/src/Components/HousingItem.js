@@ -11,7 +11,7 @@ const HousingItem = ({
         <div className="img-thumbnail housing-item">
             <img src={img_url} style={{"width": "100%"}}/>
             <div className={"caption"}>
-                {housing_name}, {housing_type}
+                {housing_name}
             </div>
             <div style={{"padding": "10px 20px 10px 20px"}}>
                 <Link to={`/user/${housing_username}/housing/${housing_id}`}

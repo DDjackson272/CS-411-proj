@@ -120,14 +120,12 @@ def main():
             password = row[2]
             hashed_password = bcrypt.hash(password)
             img = row[3]
-            query = "insert into User (email, username, password, img) values ('%s','%s','%s','%s')" % \
+            query = 'insert into User (email, username, password, img) values ("%s","%s","%s","%s")' % \
                     (email, user_name, hashed_password, img)
-            try:
-                cur.execute(query)
-            except:
-                print("This piece of data has been inserted already!")
+            cur.execute(query)
 
     conn.commit()
+    print("User insertion done!")
 
     # add housing to db
     with open("./housing.csv", 'r', encoding="utf-8") as csvfile:
@@ -141,12 +139,13 @@ def main():
             housing_type = row[4]
             description = row[5]
             img_url = row[6]
-            query = "insert into Housing (housing_name, housing_username, address, city, "\
-            "housing_type, description, img_url) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" % \
+            query = 'insert into Housing (housing_name, housing_username, address, city, '\
+            'housing_type, description, img_url) values ("%s", "%s", "%s", "%s", "%s", "%s", "%s")' % \
             (housing_name, housing_username, address, city, housing_type, description, img_url)
             cur.execute(query)
 
     conn.commit()
+    print("Housing insertion done!")
 
     # add comment to db
     with open("./comment.csv", 'r', encoding="utf-8") as csvfile:
@@ -156,10 +155,13 @@ def main():
             comment_housing_id = row[0]
             comment_user_id = row[1]
             comment_content = row[2]
-            query = "insert into Comment (comment_housing_id, comment_user_id, content) "\
-            "values (%s, %s, '%s')" % (int(comment_housing_id), int(comment_user_id), comment_content)
+            query = 'insert into Comment (comment_housing_id, comment_user_id, content) '\
+            'values ("%s", "%s", "%s")' % (int(comment_housing_id), int(comment_user_id), comment_content)
             cur.execute(query)
+
     conn.commit()
+    print("Housing comment insertion done!")
+
 
     # add housing_feature to db
     with open("./housing_feature.csv", 'r', encoding="utf-8") as csvfile:
@@ -170,12 +172,12 @@ def main():
             parking = row[1]
             cooking = row[2]
             large_bed = row[3]
-            query = "insert into HousingFeature (housing_feature_housing_id, parking, cooking, large_bed) "\
-            "values (%s, %s, %s, %s)" % (int(housing_feature_housing_id), int(parking), \
+            query = 'insert into HousingFeature (housing_feature_housing_id, parking, cooking, large_bed) '\
+            'values ("%s", "%s", "%s", "%s")' % (int(housing_feature_housing_id), int(parking), \
                 int(cooking), int(large_bed))
             cur.execute(query)
-
     conn.commit()
+    print("Housing feature insertion done!")
 
     conn.close()
 
