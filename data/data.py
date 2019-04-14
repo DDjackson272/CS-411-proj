@@ -52,13 +52,14 @@ def create_all_tables(conn):
     "FOREIGN KEY (username) REFERENCES User (username)" +\
     ");"
 
-    query_coordinate = "create table Coordinate (" +\
-    "coordinate_id int NOT NULL AUTO_INCREMENT, " +\
-    "housing_id int NOT NULL, " +\
-    "latitude float(53) NOT NULL, " +\
-    "longitude float(53) NOT NULL, " +\
-    "PRIMARY KEY (coordinate_id), " +\
-    "FOREIGN KEY (housing_id) REFERENCES Housing (housing_id)" +\
+    query_comment = "create table Comment (" +\
+    "comment_id int NOT NULL AUTO_INCREMENT," +\
+    "comment_housing_id int NOT NULL, " +\
+    "comment_user_id int NOT NULL, " +\
+    "content varchar(1024) NOT NULL," +\
+    "PRIMARY KEY (comment_id)," +\
+    "FOREIGN KEY (comment_housing_id) REFERENCES Housing (housing_id)," +\
+    "FOREIGN KEY (comment_user_id) REFERENCES User (user_id)" +\
     ");"
 
     query_recommend = "create table Recommend (" +\
@@ -73,14 +74,15 @@ def create_all_tables(conn):
     query_housing_feature = "create table HousingFeature (" +\
     "housing_feature_id int NOT NULL AUTO_INCREMENT,"+\
     "housing_feature_housing_id int NOT NULL,"+\
-    "clean int NOT NULL, "+\
+    "parking int NOT NULL, "+\
     "cooking int NOT NULL, "+\
-    "landlord int NOT NULL, "+\
+    "large_bed int NOT NULL, "+\
     "PRIMARY KEY (housing_feature_id),"+\
     "FOREIGN KEY (housing_feature_housing_id) REFERENCES Housing (housing_id)"+\
     ");"
 
-    query_list = [query_user, query_housing, query_activity, query_comment, query_recommend, query_housing_feature]
+    query_list = [query_user, query_housing, query_activity, 
+    query_comment, query_recommend, query_housing_feature]
 
     for item in query_list:
         cur.execute(item)
@@ -156,6 +158,21 @@ def main():
             comment_content = row[2]
             query = "insert into Comment (comment_housing_id, comment_user_id, content) "\
             "values (%s, %s, '%s')" % (int(comment_housing_id), int(comment_user_id), comment_content)
+            cur.execute(query)
+    conn.commit()
+
+    # add housing_feature to db
+    with open("./housing_feature.csv", 'r', encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile)
+        cur = conn.cursor()
+        for row in reader:
+            housing_feature_housing_id = row[0]
+            parking = row[1]
+            cooking = row[2]
+            large_bed = row[3]
+            query = "insert into HousingFeature (housing_feature_housing_id, parking, cooking, large_bed) "\
+            "values (%s, %s, %s, %s)" % (int(housing_feature_housing_id), int(parking), \
+                int(cooking), int(large_bed))
             cur.execute(query)
 
     conn.commit()

@@ -39,6 +39,7 @@ exports.createHousing = function (req, res, next) {
         housing_type: req.body.housing_type
     };
 
+    // first create the house
     db.query('insert into Housing set ?', housing, function (err, qResult) {
         if (err) {
             return next({
@@ -46,7 +47,20 @@ exports.createHousing = function (req, res, next) {
                 message: err.message
             });
         } else {
-            return res.status(200).json(qResult);
+            let housing_feature = {
+                housing_feature_housing_id: qResult.insertId,
+                parking: req.body.parking,
+                cooking: req.body.cooking,
+                large_bed: req.body.cooking
+            };
+            // then create the housing_feature
+            db.query('insert into HousingFeature set ?', housing_feature, function(hfErr, hfResult){
+                if (hfErr){
+                    return next(hfErr);
+                }else{
+                    return res.status(200).json(hfResult);
+                }
+            });
         }
     });
 };
@@ -54,9 +68,11 @@ exports.createHousing = function (req, res, next) {
 // /api/user/:username/housing/:housing_id
 exports.getHousing = function (req, res, next) {
     let findUser = `select * from User where username="${req.params.username}";`;
-    let findSingleHouse =
+    let findSingleHouseWithFeature =
         `(select * 
         from Housing 
+        Join HousingFeature
+        On housing_id=housing_feature_housing_id
         where housing_id=${req.params.housing_id}) as singleHouse`;
     let commentWithUsername =
         `(select * 
@@ -64,7 +80,7 @@ exports.getHousing = function (req, res, next) {
         on Comment.comment_user_id=User.user_id 
         where comment_housing_id=${req.params.housing_id}) as commentUser`;
     let findHousingComment = `select *
-    from ${findSingleHouse} 
+    from ${findSingleHouseWithFeature} 
     left join ${commentWithUsername}
     on singleHouse.housing_id=commentUser.comment_housing_id;`;
 
@@ -99,19 +115,36 @@ exports.getHousing = function (req, res, next) {
 
 // /api/user/:username/housing/:housing_id
 exports.deleteHousing = function (req, res, next) {
+    let deleteHousingFeature = `DELETE FROM HousingFeature 
+    WHERE housing_feature_housing_id=${req.params.housing_id};`;
+    let deleteComment = `DELETE FROM Comment WHERE comment_housing_id=${req.params.housing_id};`;
     let deleteHousing = `DELETE FROM Housing WHERE housing_id=${req.params.housing_id};`;
 
-    db.query(deleteHousing, function (error) {
-        if (error) {
-            return next(error);
+    // delete housing features first
+    db.query(deleteHousingFeature, function(hfError){
+        if (hfError){
+            return next(hfError)
         } else {
-            return next({
-                status: 200,
-                message: "Successfully deleted a house!"
-            })
+            // delete the relevant comment then
+            db.query(deleteComment, function(cError){
+                if (cError){
+                    return next(cError)
+                } else {
+                    // lastly delete the house.
+                    db.query(deleteHousing, function (error) {
+                        if (error) {
+                            return next(error);
+                        } else {
+                            return next({
+                                status: 200,
+                                message: "Successfully deleted a house!"
+                            })
+                        }
+                    });
+                }
+            });
         }
     });
-
 };
 
 // /api/user/:username/housing/:housing_id
@@ -126,7 +159,16 @@ exports.updateHousing = function (req, res, next) {
         housing_type: req.body.housing_type
     };
 
+    let housing_feature = {
+        housing_feature_housing_id: req.params.housing_id,
+        parking: req.body.parking,
+        cooking: req.body.cooking,
+        large_bed: req.body.large_bed
+    };
+
     let putHousing = `UPDATE Housing SET ? WHERE housing_id=${req.params.housing_id}`;
+    let putHousingFeature = `UPDATE HousingFeature SET ? 
+    WHERE housing_feature_housing_id=${req.params.housing_id}`;
     let findUser = `SELECT * FROM User WHERE username="${req.params.username}"`;
 
     db.query(findUser, function (err, results) {
@@ -139,15 +181,22 @@ exports.updateHousing = function (req, res, next) {
                     message: "No user record available!"
                 })
             } else {
+                // first modify the house
                 db.query(putHousing, housing, function (hErr) {
                     if (hErr) {
                         return next(hErr);
                     } else {
-
-                        return next({
-                            status: 200,
-                            message: "Successfully modify a coordinate!"
-                        })
+                        // then modify the housing feature
+                        db.query(putHousingFeature, housing_feature, function(hfError){
+                            if(hfError){
+                                return next(hfError)
+                            } else {
+                                return next({
+                                    status: 200,
+                                    message: "Successfully modify a house!"
+                                })
+                            }
+                        });
                     }
                 })
             }

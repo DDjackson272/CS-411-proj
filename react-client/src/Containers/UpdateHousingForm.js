@@ -22,7 +22,10 @@ class HousingForm extends Component {
             housing_name: "",
             description: "",
             img_url: "",
-            housing_type: ""
+            housing_type: "",
+            parking: "",
+            cooking: "",
+            large_bed: ""
         };
     }
 
@@ -46,7 +49,8 @@ class HousingForm extends Component {
 
     render(){
 
-        let {housing_name, address, city, description, img_url, housing_type} = this.state;
+        let {housing_name, address, city, description, img_url, housing_type,
+            parking, cooking, large_bed} = this.state;
 
         let {history, removeError} = this.props;
 
@@ -98,6 +102,32 @@ class HousingForm extends Component {
                     <option value="home stay">home stay</option>
                     <option value="hotel">hotel</option>
                 </select>
+                <div>
+                    <label htmlFor={"parking"}>Parking:</label>
+                    <input
+                        type="checkbox"
+                        name="parking"
+                        value={parking}
+                        onChange={this.handleChange}
+                        style={{"marginLeft":10}}
+                    />
+                    <label htmlFor={"cooking"} style={{"marginLeft":10}}>Cooking:</label>
+                    <input
+                        type="checkbox"
+                        name="cooking"
+                        value={cooking}
+                        onChange={this.handleChange}
+                        style={{"marginLeft":10}}
+                    />
+                    <label htmlFor={"large_bed"} style={{"marginLeft":10}}>Large Bed:</label>
+                    <input
+                        type="checkbox"
+                        name="large_bed"
+                        value={large_bed}
+                        onChange={this.handleChange}
+                        style={{"marginLeft":10}}
+                    />
+                </div>
                 <label htmlFor={"img_url"}>Image Url:</label>
                 <input
                     type="url"

@@ -21,6 +21,20 @@ class SingleHousing extends Component {
                             <li>{h.city}</li>
                             <li>{h.housing_type}</li>
                             <li>{h.description}</li>
+                            <li>
+                                Special features:
+                                <ul>
+                                    {h.parking === 1 && (
+                                        <li>parking</li>
+                                    )}
+                                    {h.cooking === 1 && (
+                                        <li>cooking</li>
+                                    )}
+                                    {h.large_bed === 1 && (
+                                        <li>large bed</li>
+                                    )}
+                                </ul>
+                            </li>
                             <img src={h.img_url} alt={h.housing_name} width="500"/>
                             {currentUser.user.username === h.housing_username && (
                                 <div style={{"marginTop": 10}}>

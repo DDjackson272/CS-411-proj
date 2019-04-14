@@ -26,51 +26,51 @@ connection.connect(function(err){
 });
 
 // first create table in case they do not exist
-let user = "create table User (" +
-    "user_id int NOT NULL AUTO_INCREMENT," +
-    "email varchar(255) NOT NULL UNIQUE," +
-    "username varchar(255) NOT NULL UNIQUE," +
-    "password varchar(255) NOT NULL," +
-    "img varchar(1024) NOT NULL," +
-    "PRIMARY KEY (user_id)" +
-    ");";
+// let user = "create table User (" +
+//     "user_id int NOT NULL AUTO_INCREMENT," +
+//     "email varchar(255) NOT NULL UNIQUE," +
+//     "username varchar(255) NOT NULL UNIQUE," +
+//     "password varchar(255) NOT NULL," +
+//     "img varchar(1024) NOT NULL," +
+//     "PRIMARY KEY (user_id)" +
+//     ");";
 
-let housing = "create table Housing (" +
-    "housing_id int NOT NULL AUTO_INCREMENT," +
-    "housing_name varchar(255) NOT NULL,"+
-    "housing_username varchar(255) NOT NULL," +
-    "address varchar(255) NOT NULL," +
-    "city varchar(255) NOT NULL," +
-    "housing_type varchar(255) NOT NULL," +
-    "description varchar(1024) NOT NULL, " +
-    "img_url varchar(1024) NOT NULL, " +
-    "PRIMARY KEY (housing_id)," +
-    "FOREIGN KEY (housing_username) REFERENCES User (username)" +
-    ");";
+// let housing = "create table Housing (" +
+//     "housing_id int NOT NULL AUTO_INCREMENT," +
+//     "housing_name varchar(255) NOT NULL,"+
+//     "housing_username varchar(255) NOT NULL," +
+//     "address varchar(255) NOT NULL," +
+//     "city varchar(255) NOT NULL," +
+//     "housing_type varchar(255) NOT NULL," +
+//     "description varchar(1024) NOT NULL, " +
+//     "img_url varchar(1024) NOT NULL, " +
+//     "PRIMARY KEY (housing_id)," +
+//     "FOREIGN KEY (housing_username) REFERENCES User (username)" +
+//     ");";
 
-let activity = "create table Activity (" +
-    "activity_id int NOT NULL AUTO_INCREMENT," +
-    "activity_name varchar(255) NOT NULL," +
-    "username varchar(255) NOT NULL," +
-    "address varchar(255) NOT NULL," +
-    "city varchar(255) NOT NULL," +
-    "type varchar(255) NOT NULL," +
-    "description varchar(1024) NOT NULL," +
-    "date DATE NOT NULL," +
-    "img_url varchar(1024) NOT NULL," +
-    "PRIMARY KEY (activity_id), " +
-    "FOREIGN KEY (username) REFERENCES User (username)" +
-    ");";
+// let activity = "create table Activity (" +
+//     "activity_id int NOT NULL AUTO_INCREMENT," +
+//     "activity_name varchar(255) NOT NULL," +
+//     "username varchar(255) NOT NULL," +
+//     "address varchar(255) NOT NULL," +
+//     "city varchar(255) NOT NULL," +
+//     "type varchar(255) NOT NULL," +
+//     "description varchar(1024) NOT NULL," +
+//     "date DATE NOT NULL," +
+//     "img_url varchar(1024) NOT NULL," +
+//     "PRIMARY KEY (activity_id), " +
+//     "FOREIGN KEY (username) REFERENCES User (username)" +
+//     ");";
 
-let comment = "create table Comment (" +
-    "comment_id int NOT NULL AUTO_INCREMENT," +
-    "comment_housing_id int NOT NULL, " +
-    "comment_user_id int NOT NULL, " +
-    "content varchar(1024) NOT NULL," +
-    "PRIMARY KEY (comment_id)," +
-    "FOREIGN KEY (comment_housing_id) REFERENCES Housing (housing_id)," +
-    "FOREIGN KEY (comment_user_id) REFERENCES User (user_id)" +
-    ");";
+// let comment = "create table Comment (" +
+//     "comment_id int NOT NULL AUTO_INCREMENT," +
+//     "comment_housing_id int NOT NULL, " +
+//     "comment_user_id int NOT NULL, " +
+//     "content varchar(1024) NOT NULL," +
+//     "PRIMARY KEY (comment_id)," +
+//     "FOREIGN KEY (comment_housing_id) REFERENCES Housing (housing_id)," +
+//     "FOREIGN KEY (comment_user_id) REFERENCES User (user_id)" +
+//     ");";
 
 // let sentiment = "create table Sentiment (" +
 //     "sentiment_id int NOT NULL AUTO_INCREMENT," +
@@ -88,38 +88,38 @@ let comment = "create table Comment (" +
 //     "FOREIGN KEY (wordcloud_housing_id) REFERENCES Housing (housing_id)" +
 //     ");";
 //
-let recommend = "create table Recommend (" +
-    "recommend_id int NOT NULL AUTO_INCREMENT," +
-    "recommend_username varchar(255) NOT NULL, " +
-    "recommend_housing_id int NOT NULL," +
-    "PRIMARY KEY (recommend_id)," +
-    "FOREIGN KEY (recommend_username) REFERENCES User (username)," +
-    "FOREIGN KEY (recommend_housing_id) REFERENCES Housing (housing_id)" +
-    ");";
+// let recommend = "create table Recommend (" +
+//     "recommend_id int NOT NULL AUTO_INCREMENT," +
+//     "recommend_username varchar(255) NOT NULL, " +
+//     "recommend_housing_id int NOT NULL," +
+//     "PRIMARY KEY (recommend_id)," +
+//     "FOREIGN KEY (recommend_username) REFERENCES User (username)," +
+//     "FOREIGN KEY (recommend_housing_id) REFERENCES Housing (housing_id)" +
+//     ");";
 
-connection.query(user, function(err){
-    if (err) {
-        console.log(err.message);
-    }
-});
+// connection.query(user, function(err){
+//     if (err) {
+//         console.log(err.message);
+//     }
+// });
+//
+// connection.query(housing, function(err){
+//    if (err) {
+//        console.log(err.message)
+//    }
+// });
+//
+// connection.query(activity, function(err){
+//     if(err) {
+//         console.log(err.message);
+//     }
+// });
 
-connection.query(housing, function(err){
-   if (err) {
-       console.log(err.message)
-   }
-});
-
-connection.query(activity, function(err){
-    if(err) {
-        console.log(err.message);
-    }
-});
-
-connection.query(comment, function(err){
-    if(err){
-        console.log(err.message);
-    }
-});
+// connection.query(comment, function(err){
+//     if(err){
+//         console.log(err.message);
+//     }
+// });
 
 // connection.query(sentiment, function(err){
 //     if(err){
@@ -133,10 +133,10 @@ connection.query(comment, function(err){
 //     }
 // });
 
-connection.query(recommend, function(err){
-    if(err){
-        console.log(err.message)
-    }
-});
+// connection.query(recommend, function(err){
+//     if(err){
+//         console.log(err.message)
+//     }
+// });
 
 module.exports = connection;
