@@ -24,8 +24,18 @@ app.use("/api/user/:username/housing", housingRoutes);
 app.use("/api/user/:username/activity", activityRoutes);
 
 app.get("/api/housing", function (req, res, next) {
-    let findHousing = "SELECT * FROM Housing";
-    db.query(findHousing, function (err, results) {
+    let findHousingWithRating =
+        "(SELECT * " +
+        "FROM Housing " +
+        "JOIN Sentiment " +
+        "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
+    let findDetailedHousing =
+        `SELECT * 
+        FROM ${findHousingWithRating} 
+        JOIN HousingFeature 
+        ON HousingSentiment.housing_id=HousingFeature.housing_feature_housing_id`;
+
+    db.query(findDetailedHousing, function (err, results) {
         if (err) {
             return next({
                 status: 400,
@@ -52,7 +62,17 @@ app.get("/api/activity", function (req, res, next) {
 });
 
 app.get("/api/housing/search/:keyword", function(req, res, next){
-    let findHouse = `Select * from Housing ` +
+    let findHousingWithRating =
+        "(SELECT * " +
+        "FROM Housing " +
+        "JOIN Sentiment " +
+        "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
+    let findDetailedHousing =
+        `(SELECT * 
+        FROM ${findHousingWithRating} 
+        JOIN HousingFeature 
+        ON HousingSentiment.housing_id=HousingFeature.housing_feature_housing_id) as detailHousing`;
+    let findHouse = `Select * from ${findDetailedHousing} ` +
         `Where housing_name like "%${req.params.keyword}%" or ` +
         `address like "%${req.params.keyword}%" or ` +
         `city like "%${req.params.keyword}%" or ` +
@@ -92,11 +112,21 @@ app.get("/api/activity/search/:keyword", function(req, res, next){
 });
 
 app.get("/api/housing/:username/recommend", function(req, res, next){
+    let findHousingWithRating =
+        "(SELECT * " +
+        "FROM Housing " +
+        "JOIN Sentiment " +
+        "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
+    let findDetailedHousing =
+        `(SELECT * 
+        FROM ${findHousingWithRating} 
+        JOIN HousingFeature 
+        ON HousingSentiment.housing_id=HousingFeature.housing_feature_housing_id) as detailHousing`;
     let findRecommendHousing =
-        `Select *
-        from Recommend join Housing 
-        on Recommend.recommend_housing_id=Housing.housing_id
-        Where Recommend.recommend_username="${req.params.username}"`;
+        `Select * 
+        FROM ${findDetailedHousing}
+        Join Recommend
+        On Recommend.recommend_housing_id=detailHousing.housing_id;`;
 
     db.query(findRecommendHousing, function(err, results){
         if(err){

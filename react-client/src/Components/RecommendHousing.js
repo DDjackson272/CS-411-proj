@@ -21,6 +21,7 @@ class RecommendHousing extends Component{
                 housing_type={h.housing_type}
                 img_url={h.img_url}
                 housing_id={h.housing_id}
+                overall_comment={h.overall_comment}
             />
         ));
         return (
