@@ -10,6 +10,7 @@ import HousingForm from "../Containers/HousingForm";
 import UpdateHousingForm from "../Containers/UpdateHousingForm";
 import SingleHousing from "../Components/SingleHousing";
 import SearchHousing from "../Components/SearchHousing";
+import RecommendHousing from "../Components/RecommendHousing";
 
 const Main = props => {
     const {authUser, errors, removeError, currentUser} = props;
@@ -66,6 +67,14 @@ const Main = props => {
                     exact path={"/housing/:keyword"}
                     render={props =>
                         <SearchHousing
+                            {...props}
+                        />
+                    }
+                />
+                <Route
+                    exact path={"/housing/:username/recommend"}
+                    render={props =>
+                        <RecommendHousing
                             {...props}
                         />
                     }

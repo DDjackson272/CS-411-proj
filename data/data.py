@@ -250,6 +250,19 @@ def main():
     conn.commit()
     print("Sentiment insertion done!")
 
+    # add recommend_housing to db
+    with open(INITIAL_DATA_PATH+"/recommend.csv", 'r', encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile)
+        cur = conn.cursor()
+        for row in reader:
+            recommend_username = row[0]
+            recommend_housing_id = row[1]
+            query = 'insert into Recommend (recommend_username, recommend_housing_id) values '\
+            '("%s", %s)' % (recommend_username, int(recommend_housing_id))
+            cur.execute(query)
+    conn.commit()
+    print("Recommend insertion done!")
+
     conn.close()
 
 

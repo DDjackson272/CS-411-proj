@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import HousingList from "../Containers/HousingList"
 
 class HousingTimeline extends Component{
-    constructor(props) {
-        super(props);
-    }
 
     render(){
         return (

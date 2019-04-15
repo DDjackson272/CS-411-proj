@@ -1,5 +1,4 @@
 import React from 'react';
-import Moment from 'react';
 import {Link} from 'react-router-dom';
 
 
@@ -9,7 +8,7 @@ const HousingItem = ({
                      }) => (
     <div className={"col-md-3 col-sm-6"}>
         <div className="img-thumbnail housing-item">
-            <img src={img_url} style={{"width": "100%"}}/>
+            <img src={img_url} style={{"width": "100%"}} alt={housing_name}/>
             <div className={"caption"}>
                 {housing_name}
             </div>

@@ -96,7 +96,7 @@ app.get("/api/housing/:username/recommend", function(req, res, next){
         `Select *
         from Recommend join Housing 
         on Recommend.recommend_housing_id=Housing.housing_id
-        Where Recommend.username="${req.params.username}"`;
+        Where Recommend.recommend_username="${req.params.username}"`;
 
     db.query(findRecommendHousing, function(err, results){
         if(err){
@@ -108,7 +108,6 @@ app.get("/api/housing/:username/recommend", function(req, res, next){
             return res.status(200).json(results);
         }
     })
-
 });
 
 app.use(function (req, res, next) {

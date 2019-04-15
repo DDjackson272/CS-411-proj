@@ -1,4 +1,10 @@
-import {LOAD_HOUSING, LOAD_SEARCH_HOUSING, LOAD_SINGLE_HOUSING, REMOVE_HOUSING} from "../actionTypes";
+import {
+    LOAD_HOUSING,
+    LOAD_RECOMMEND_HOUSING,
+    LOAD_SEARCH_HOUSING,
+    LOAD_SINGLE_HOUSING,
+    REMOVE_HOUSING
+} from "../actionTypes";
 
 const housings = (state=[], action) => {
     switch (action.type) {
@@ -9,6 +15,8 @@ const housings = (state=[], action) => {
         case REMOVE_HOUSING:
             return state.filter(housing => housing.housing_id !== action.housing_id);
         case LOAD_SINGLE_HOUSING:
+            return [...action.housings];
+        case LOAD_RECOMMEND_HOUSING:
             return [...action.housings];
         default:
             return state;

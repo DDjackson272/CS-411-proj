@@ -3,9 +3,6 @@ import {Link} from "react-router-dom";
 import HousingTimeline from "./HousingTimeline"
 
 class Homepage extends Component {
-    constructor(props){
-        super(props);
-    }
 
     render(){
         let {currentUser} = this.props;

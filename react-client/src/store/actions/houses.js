@@ -1,6 +1,7 @@
 import {apiCall} from "../../services/api";
 import {addError} from "./errors";
-import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_SINGLE_HOUSING, LOAD_SEARCH_HOUSING} from "../actionTypes";
+import {LOAD_HOUSING, REMOVE_HOUSING, LOAD_SINGLE_HOUSING,
+    LOAD_SEARCH_HOUSING, LOAD_RECOMMEND_HOUSING} from "../actionTypes";
 
 export const loadHousing = housings => ({
     type: LOAD_HOUSING,
@@ -19,6 +20,11 @@ export const loadSingleHousing = housings => ({
 
 export const loadSearchHousing = housings => ({
     type:LOAD_SEARCH_HOUSING,
+    housings
+});
+
+export const loadRecommendHousing = housings => ({
+    type:LOAD_RECOMMEND_HOUSING,
     housings
 });
 
@@ -68,4 +74,12 @@ export const postHousings = data => (dispatch, getState) => {
     return apiCall("post", `/api/user/${username}/housing`, {username, ...data})
         .then(res => console.log(res.message))
         .catch(err => dispatch(addError(err.message)))
+};
+
+export const fetchRecommendHousing = (username) => {
+    return  dispatch => {
+        return apiCall("get",  `/api/housing/${username}/recommend`)
+            .then(res => dispatch(loadRecommendHousing(res)))
+            .catch(err => dispatch(addError(err.message)))
+    }
 };
