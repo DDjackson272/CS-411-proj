@@ -141,6 +141,39 @@ app.get("/api/housing/:username/recommend", function(req, res, next){
     })
 });
 
+app.post("/api/user/:username/add/:housing_id", function(req, res, next){
+    let getIdOfUsername =  `select user_id from User where username="${req.params.username}";`;
+
+    db.query(getIdOfUsername, function(uErr, uResults){
+        if (uErr) {
+            return next(uErr)
+        } else {
+            if (uResults.length === 0) {
+                return next({
+                    status:400,
+                    message:"No user info found!"
+                })
+            } else {
+                let {user_id} = uResults[0];
+                let addHistory =
+                    `Insert into History (history_user_id, history_housing_id) 
+                    values (${user_id}, ${req.params.housing_id})`;
+
+                db.query(addHistory, function(err, results){
+                    if (err) {
+                        return next({
+                            status:400,
+                            message: err.message
+                        })
+                    } else {
+                        return res.status(200).json(results)
+                    }
+                })
+            }
+        }
+    });
+});
+
 app.use(function (req, res, next) {
     return next({
         status: 404,

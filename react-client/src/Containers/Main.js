@@ -10,7 +10,7 @@ import HousingForm from "../Containers/HousingForm";
 import UpdateHousingForm from "../Containers/UpdateHousingForm";
 import SingleHousing from "../Components/SingleHousing";
 import SearchHousing from "../Components/SearchHousing";
-import RecommendHousing from "../Components/RecommendHousing";
+import RecommendHousing from "../Components/RmdHousing";
 
 const Main = props => {
     const {authUser, errors, removeError, currentUser} = props;

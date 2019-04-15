@@ -94,6 +94,15 @@ def main():
 	passwd='CS411!!!',
 	db='cs411proj')
 
+    # # aws db
+    # conn = pymysql.connect(
+    #     host="tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com",
+    #     port=3306,
+    #     user="tutorial_user",
+    #     passwd="Zhe12345!",
+    #     db="sample"
+    # )
+
 	get_data_from_db(conn)
 	get_feature_db()
 	k_means_recommendation()

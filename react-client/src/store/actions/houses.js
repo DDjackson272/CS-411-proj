@@ -83,3 +83,12 @@ export const fetchRecommendHousing = (username) => {
             .catch(err => dispatch(addError(err.message)))
     }
 };
+
+export const changeHistory = (username, housing_id) => {
+    console.log(username, housing_id);
+    return dispatch => {
+        return apiCall("post", `/api/user/${username}/add/${housing_id}`)
+            .then(res => console.log(res.message))
+            .catch(err => dispatch(addError(err.message)))
+    }
+};
