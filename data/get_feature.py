@@ -4,12 +4,6 @@ import pandas as pd
 import pymysql
 
 FILE_PATH = "./FromDB"
-conn = pymysql.connect(
-	host='localhost',
-	port=3306,
-	user='root',
-	passwd='CS411!!!',
-	db='cs411proj')
 
 def get_data_from_db(conn):
 	table_list = ['User', 'Housing', 'HousingFeature', 'History']
@@ -40,6 +34,20 @@ def get_feature_db():
 		left_on="history_housing_id", right_on="housing_id")[
 	["history_user_id", "housing_id", "housing_type", "parking", "cooking", "large_bed"]]
 
+	housing_final_feature_table = pd.merge(housing_table, housing_feature_table, 
+		left_on="housing_id", right_on="housing_feature_housing_id")[
+	["housing_id", "housing_type", "parking", "cooking", "large_bed"]]
+
+	length = len(housing_final_feature_table)
+
+	for i in range(length):
+		if housing_final_feature_table.at[i, "housing_type"] == "home stay":
+			housing_final_feature_table.at[i, "housing_type"] = 1
+		else:
+			housing_final_feature_table.at[i, "housing_type"] = 0
+
+	housing_final_feature_table.to_csv(FILE_PATH+"/FinalHousingFeature.csv", index=False)
+
 	length = len(history_feature_table)
 
 	for i in range(length):
@@ -52,6 +60,12 @@ def get_feature_db():
 
 
 def main():
+	conn = pymysql.connect(
+	host='localhost',
+	port=3306,
+	user='root',
+	passwd='CS411!!!',
+	db='cs411proj')
 	get_data_from_db(conn)
 	get_feature_db()
 

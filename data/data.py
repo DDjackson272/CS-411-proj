@@ -2,8 +2,15 @@ import pymysql
 import csv
 import random
 from passlib.hash import bcrypt
+import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+from get_feature import get_data_from_db, get_feature_db
+from recommend import k_means_recommendation
+
 
 INITIAL_DATA_PATH = "./initial"
+FILE_PATH = "./FromDB"
 
 def gen_history_csv():
     history_tuple_list = list()
@@ -249,6 +256,10 @@ def main():
             cur.execute(query)
     conn.commit()
     print("Sentiment insertion done!")
+
+    get_data_from_db(conn)
+    get_feature_db()
+    k_means_recommendation()
 
     # add recommend_housing to db
     with open(INITIAL_DATA_PATH+"/recommend.csv", 'r', encoding="utf-8") as csvfile:
