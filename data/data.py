@@ -139,25 +139,26 @@ def create_all_tables(conn):
 
 def main():
     # local db
+    # conn = pymysql.connect(
+    #     host='localhost',
+    #     port=3306,
+    #     user='root',
+    #     passwd='CS411!!!',
+    #     db='cs411proj')
+
+
+    # # aws db
     conn = pymysql.connect(
-        host='localhost',
+        host="tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com",
         port=3306,
-        user='root',
-        passwd='CS411!!!',
-        db='cs411proj')
+        user="tutorial_user",
+        passwd="Zhe12345!",
+        db="sample"
+    )
 
     gen_history_csv()
     drop_all_tables(conn)
     create_all_tables(conn)
-
-    # # aws db
-    # conn = pymysql.connect(
-    #     host="tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com",
-    #     port=3306,
-    #     user="tutorial_user",
-    #     passwd="Zhe12345!",
-    #     db="sample"
-    # )
 
     # add User to db
     with open(INITIAL_DATA_PATH+"/user.csv", 'r', encoding="utf-8") as csvfile:

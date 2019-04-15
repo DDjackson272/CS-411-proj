@@ -87,21 +87,21 @@ def overwrite_recommend_table_db(conn):
 
 def main():
 
-	conn = pymysql.connect(
-	host='localhost',
-	port=3306,
-	user='root',
-	passwd='CS411!!!',
-	db='cs411proj')
+	# conn = pymysql.connect(
+	# host='localhost',
+	# port=3306,
+	# user='root',
+	# passwd='CS411!!!',
+	# db='cs411proj')
 
     # # aws db
-    # conn = pymysql.connect(
-    #     host="tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com",
-    #     port=3306,
-    #     user="tutorial_user",
-    #     passwd="Zhe12345!",
-    #     db="sample"
-    # )
+    conn = pymysql.connect(
+        host="tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com",
+        port=3306,
+        user="tutorial_user",
+        passwd="Zhe12345!",
+        db="sample"
+    )
 
 	get_data_from_db(conn)
 	get_feature_db()
