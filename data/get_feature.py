@@ -57,17 +57,3 @@ def get_feature_db():
 			history_feature_table.at[i, "housing_type"] = 0
 
 	history_feature_table.to_csv(FILE_PATH+"/TrainingTable.csv", index=False)
-
-
-def main():
-	conn = pymysql.connect(
-	host='localhost',
-	port=3306,
-	user='root',
-	passwd='CS411!!!',
-	db='cs411proj')
-	get_data_from_db(conn)
-	get_feature_db()
-
-if __name__ == "__main__":
-	main()

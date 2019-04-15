@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
+import pymysql
 import numpy as np
 import pandas as pd
 import csv
 from sklearn.cluster import KMeans
+from get_feature import get_data_from_db, get_feature_db
 
 FILE_PATH = "./FromDB"
 INITIAL_DATA_PATH = "./initial"
@@ -43,4 +45,61 @@ def k_means_recommendation():
 		for user in user_favorite_housing:
 			for housing_id in user_favorite_housing[user]:
 				writer.writerow([user] + [housing_id])
+
+def overwrite_recommend_table_db(conn):
+
+	# first drop the table
+	cur = conn.cursor()
+	try:
+		drop_query = "drop table %s" % 'Recommend'
+		cur.execute(drop_query)
+		conn.commit()
+	except:
+		print("Recommend table has already been dropped!")
+
+	# then create the table
+	query_recommend = "create table Recommend (" +\
+	"recommend_id int NOT NULL AUTO_INCREMENT," +\
+	"recommend_username varchar(255) NOT NULL, " +\
+	"recommend_housing_id int NOT NULL," +\
+	"PRIMARY KEY (recommend_id)," +\
+	"FOREIGN KEY (recommend_username) REFERENCES User (username)," +\
+	"FOREIGN KEY (recommend_housing_id) REFERENCES Housing (housing_id)" +\
+	");"
+
+	try:
+		cur.execute(query_recommend)
+		conn.commit()
+	except:
+		print("Recommend table already exists!")
+
+	with open(INITIAL_DATA_PATH+"/recommend.csv", 'r', encoding="utf-8") as csvfile:
+		reader = csv.reader(csvfile)
+		cur = conn.cursor()
+		for row in reader:
+			recommend_username = row[0]
+			recommend_housing_id = row[1]
+			query = 'insert into Recommend (recommend_username, recommend_housing_id) values '\
+			'("%s", %s)' % (recommend_username, int(recommend_housing_id))
+			cur.execute(query)
+	conn.commit()
+	print("Recommend updating done!")
+
+def main():
+
+	conn = pymysql.connect(
+	host='localhost',
+	port=3306,
+	user='root',
+	passwd='CS411!!!',
+	db='cs411proj')
+
+	get_data_from_db(conn)
+	get_feature_db()
+	k_means_recommendation()
+	overwrite_recommend_table_db(conn)
+
+if __name__ == "__main__":
+	main()
+
 
