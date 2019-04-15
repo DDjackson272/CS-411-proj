@@ -299,6 +299,7 @@ app.post("/api/user/:username/add/:housing_id", function (req, res, next) {
                             if (error) {
                                 return next(error);
                             } else {
+                                console.log("run python recommendation script!");
                                 return res.status(200).json(results);
                             }
                         });

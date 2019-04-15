@@ -7,7 +7,7 @@ from get_feature import get_data_from_db, get_feature_db
 
 FILE_PATH = "./FromDB"
 INITIAL_DATA_PATH = "./initial"
-CLUSTER_NUM = 2
+CLUSTER_NUM = 1
 
 
 def k_means_recommendation():
