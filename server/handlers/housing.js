@@ -126,36 +126,44 @@ exports.deleteHousing = function (req, res, next) {
     let deleteHousing = `DELETE FROM Housing WHERE housing_id=${req.params.housing_id};`;
     let deleteHistory = `DELETE FROM History WHERE history_housing_id=${req.params.housing_id};`;
     let deleteSentiment = `DELETE FROM Sentiment WHERE sentiment_housing_id=${req.params.housing_id};`;
+    let deleteRecommend = `DELETE FROM Recommend WHERE recommend_housing_id=${req.params.housing_id};`;
 
-    // delete housing features first
-    db.query(deleteHousingFeature, function(hfError){
-        if (hfError){
-            return next(hfError)
+    // delete housing in recommend first
+    db.query(deleteRecommend, function(rError){
+        if (rError){
+            return next(rError)
         } else {
-            // delete sentiment then
-            db.query(deleteSentiment, function(sError){
-                if(sError){
-                    return next(sError)
+            // delete housing features first
+            db.query(deleteHousingFeature, function(hfError){
+                if (hfError){
+                    return next(hfError)
                 } else {
-                    // delete visited history then
-                    db.query(deleteHistory, function(hError){
-                        if (hError){
-                            return next(hError)
+                    // delete sentiment then
+                    db.query(deleteSentiment, function(sError){
+                        if(sError){
+                            return next(sError)
                         } else {
-                            // delete the relevant comment then
-                            db.query(deleteComment, function(cError){
-                                if (cError){
-                                    return next(cError)
+                            // delete visited history then
+                            db.query(deleteHistory, function(hError){
+                                if (hError){
+                                    return next(hError)
                                 } else {
-                                    // lastly delete the house.
-                                    db.query(deleteHousing, function (error) {
-                                        if (error) {
-                                            return next(error);
+                                    // delete the relevant comment then
+                                    db.query(deleteComment, function(cError){
+                                        if (cError){
+                                            return next(cError)
                                         } else {
-                                            return next({
-                                                status: 200,
-                                                message: "Successfully deleted a house!"
-                                            })
+                                            // lastly delete the house.
+                                            db.query(deleteHousing, function (error) {
+                                                if (error) {
+                                                    return next(error);
+                                                } else {
+                                                    return next({
+                                                        status: 200,
+                                                        message: "Successfully deleted a house!"
+                                                    })
+                                                }
+                                            });
                                         }
                                     });
                                 }
@@ -165,7 +173,7 @@ exports.deleteHousing = function (req, res, next) {
                 }
             });
         }
-    });
+    })
 };
 
 // /api/user/:username/housing/:housing_id

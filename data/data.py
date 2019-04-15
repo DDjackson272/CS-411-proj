@@ -8,6 +8,8 @@ from sklearn.cluster import KMeans
 from get_feature import get_data_from_db, get_feature_db
 from recommend import k_means_recommendation
 
+# fill data base with some initial data
+
 
 INITIAL_DATA_PATH = "./initial"
 FILE_PATH = "./FromDB"
