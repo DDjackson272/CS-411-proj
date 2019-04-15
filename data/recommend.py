@@ -103,7 +103,7 @@ def main():
         db="sample"
     )
 
-	get_data_from_db(conn)
+    get_data_from_db(conn)
 	get_feature_db()
 	k_means_recommendation()
 	overwrite_recommend_table_db(conn)
