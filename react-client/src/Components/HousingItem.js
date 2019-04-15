@@ -4,9 +4,10 @@ import connect from "react-redux/es/connect/connect";
 import {changeHistory} from "../store/actions/houses";
 
 class HousingItem extends Component {
+
     handleLike = event => {
         event.preventDefault();
-        this.props.changeHistory(this.props.currentUser.user.username, this.props.housing_id)
+        this.props.changeHistory(this.props.currentUser.user.username, this.props.housing_id);
     };
 
     render () {

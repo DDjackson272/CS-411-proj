@@ -33,6 +33,7 @@ class SearchHousing extends Component{
                 img_url={h.img_url}
                 housing_id={h.housing_id}
                 overall_comment={h.overall_comment}
+                visited={h.visited}
             />
         ));
         return (

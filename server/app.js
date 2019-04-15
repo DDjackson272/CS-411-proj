@@ -63,7 +63,7 @@ app.get("/api/housing", function (req, res, next) {
                         from History
                         Where history_user_id=${user_id};`;
 
-                    db.query(findUserLikedHousing, function(ulErr, ulResults){
+                    db.query(findUserLikedHousing, function (ulErr, ulResults) {
                         if (ulErr) {
                             return next(ulErr)
                         } else {
@@ -74,11 +74,12 @@ app.get("/api/housing", function (req, res, next) {
                                         message: err.message
                                     });
                                 } else {
-                                    let  visitedArray = ulResults.map((ul) => (
+                                    let visitedArray = ulResults.map((ul) => (
                                         ul.history_housing_id
                                     ));
                                     return res.status(200).json(hResults.map((hr) => (
-                                        {...hr,
+                                        {
+                                            ...hr,
                                             visited: visitedArray.includes(hr.housing_id)
                                         }
                                     )));
@@ -107,33 +108,79 @@ app.get("/api/activity", function (req, res, next) {
 });
 
 app.get("/api/housing/search/:keyword", function (req, res, next) {
-    let findHousingWithRating =
-        "(SELECT * " +
-        "FROM Housing " +
-        "LEFT JOIN Sentiment " +
-        "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
-    let findDetailedHousing =
-        `(SELECT * 
-        FROM ${findHousingWithRating} 
-        JOIN HousingFeature 
-        ON HousingSentiment.housing_id=HousingFeature.housing_feature_housing_id) as detailHousing`;
-    let findHouse = `Select * from ${findDetailedHousing} ` +
-        `Where housing_name like "%${req.params.keyword}%" or ` +
-        `address like "%${req.params.keyword}%" or ` +
-        `city like "%${req.params.keyword}%" or ` +
-        `housing_type like "%${req.params.keyword}%" or ` +
-        `description like "%${req.params.keyword}%";`;
 
-    db.query(findHouse, function (err, results) {
-        if (err) {
-            return next({
-                status: 400,
-                message: err.message
-            })
-        } else {
-            return res.status(200).json(results);
-        }
-    })
+    const token = req.headers.authorization.split(" ")[1];
+
+    jwt.verify(token, process.env.SECRET_KEY, function (err, decoded) {
+        let findUserId =
+            `Select user_id
+        From User
+        Where username="${decoded.username}"`;
+
+        // first findUserId
+        db.query(findUserId, function (uErr, uResult) {
+            if (uErr) {
+                return next(uErr)
+            } else {
+                if (uResult.length === 0) {
+                    return next({
+                        status: 400,
+                        message: "No user record!"
+                    })
+                } else {
+                    let findHousingWithRating =
+                        "(SELECT * " +
+                        "FROM Housing " +
+                        "LEFT JOIN Sentiment " +
+                        "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
+                    let findDetailedHousing =
+                        `(SELECT * 
+                        FROM ${findHousingWithRating} 
+                        JOIN HousingFeature 
+                        ON HousingSentiment.housing_id=HousingFeature.housing_feature_housing_id) 
+                        as detailHousing`;
+                    let findHouse = `Select * from ${findDetailedHousing} ` +
+                        `Where housing_name like "%${req.params.keyword}%" or ` +
+                        `address like "%${req.params.keyword}%" or ` +
+                        `city like "%${req.params.keyword}%" or ` +
+                        `housing_type like "%${req.params.keyword}%" or ` +
+                        `description like "%${req.params.keyword}%";`;
+
+                    let {user_id} = uResult[0];
+
+                    let findUserLikedHousing =
+                        `Select * 
+                        from History
+                        Where history_user_id=${user_id};`;
+
+                    db.query(findUserLikedHousing, function (ulErr, ulResults) {
+                        if (ulErr) {
+                            return next(ulErr)
+                        } else {
+                            db.query(findHouse, function (err, hResults) {
+                                if (err) {
+                                    return next({
+                                        status: 400,
+                                        message: err.message
+                                    });
+                                } else {
+                                    let visitedArray = ulResults.map((ul) => (
+                                        ul.history_housing_id
+                                    ));
+                                    return res.status(200).json(hResults.map((hr) => (
+                                        {
+                                            ...hr,
+                                            visited: visitedArray.includes(hr.housing_id)
+                                        }
+                                    )));
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    });
 });
 
 app.get("/api/activity/search/:keyword", function (req, res, next) {
@@ -173,17 +220,54 @@ app.get("/api/housing/:username/recommend", function (req, res, next) {
         Join Recommend
         On Recommend.recommend_housing_id=detailHousing.housing_id
         Where Recommend.recommend_username="${req.params.username}";`;
+    let findUserId =
+        `Select user_id
+        From User
+        Where username="${req.params.username}"`;
 
-    db.query(findRecommendHousing, function (err, results) {
-        if (err) {
-            return next({
-                status: 400,
-                message: err.message
-            })
+    db.query(findUserId, function(uErr, uResults){
+        if (uErr) {
+            return next(uErr);
         } else {
-            return res.status(200).json(results);
+            if (uResults.length === 0) {
+                return next({
+                    status: 400,
+                    message: "No user record!"
+                })
+            } else {
+                let {user_id} = uResults[0];
+                let findUserLikedHousing =
+                    `Select * 
+                        from History
+                        Where history_user_id=${user_id};`;
+
+                db.query(findUserLikedHousing, function (ulErr, ulResults) {
+                    if (ulErr) {
+                        return next(ulErr)
+                    } else {
+                        db.query(findRecommendHousing, function (err, hResults) {
+                            if (err) {
+                                return next({
+                                    status: 400,
+                                    message: err.message
+                                });
+                            } else {
+                                let visitedArray = ulResults.map((ul) => (
+                                    ul.history_housing_id
+                                ));
+                                return res.status(200).json(hResults.map((hr) => (
+                                    {
+                                        ...hr,
+                                        visited: visitedArray.includes(hr.housing_id)
+                                    }
+                                )));
+                            }
+                        });
+                    }
+                });
+            }
         }
-    })
+    });
 });
 
 app.post("/api/user/:username/add/:housing_id", function (req, res, next) {
