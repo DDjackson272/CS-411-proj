@@ -12,6 +12,8 @@ class HousingList extends Component {
     render() {
         const {housings} = this.props;
 
+        console.log(housings);
+
         let housingList = housings.map((h, index) => (
             <HousingItem
                 key={index}
@@ -21,6 +23,7 @@ class HousingList extends Component {
                 img_url={h.img_url}
                 housing_id={h.housing_id}
                 overall_comment={h.overall_comment}
+                visited={h.visited}
             />
         ));
 

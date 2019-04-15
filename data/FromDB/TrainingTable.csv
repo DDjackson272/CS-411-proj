@@ -41,6 +41,7 @@ history_user_id,housing_id,housing_type,parking,cooking,large_bed
 16,4,1,0,0,0
 17,4,1,0,0,0
 18,4,1,0,0,0
+6,4,1,0,0,0
 1,13,1,1,1,1
 3,13,1,1,1,1
 4,13,1,1,1,1
@@ -122,6 +123,7 @@ history_user_id,housing_id,housing_type,parking,cooking,large_bed
 14,7,1,1,1,0
 15,7,1,1,1,0
 18,7,1,1,1,0
+6,7,1,1,1,0
 2,12,1,1,1,0
 3,12,1,1,1,0
 4,12,1,1,1,0
@@ -155,6 +157,7 @@ history_user_id,housing_id,housing_type,parking,cooking,large_bed
 9,11,1,1,1,0
 13,11,1,1,1,0
 18,11,1,1,1,0
+6,11,1,1,1,0
 3,15,1,0,1,1
 4,15,1,0,1,1
 5,15,1,0,1,1
@@ -182,6 +185,7 @@ history_user_id,housing_id,housing_type,parking,cooking,large_bed
 15,6,1,0,0,0
 17,6,1,0,0,0
 18,6,1,0,0,0
+6,6,1,0,0,0
 4,9,1,0,1,1
 5,9,1,0,1,1
 6,9,1,0,1,1
@@ -198,3 +202,4 @@ history_user_id,housing_id,housing_type,parking,cooking,large_bed
 13,10,1,1,1,1
 17,10,1,1,1,1
 18,10,1,1,1,1
+6,21,1,1,1,1

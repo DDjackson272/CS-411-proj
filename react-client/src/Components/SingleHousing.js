@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {fetchSingleHousing, removeHousings, changeHistory} from "../store/actions/houses";
+import {fetchSingleHousing, removeHousings} from "../store/actions/houses";
 import connect from "react-redux/es/connect/connect";
 import {Link} from "react-router-dom";
 
@@ -7,11 +7,6 @@ class SingleHousing extends Component {
     componentDidMount(){
         this.props.fetchSingleHousing(this.props.match.params.username, this.props.match.params.housing_id);
     }
-
-    handleLike = event => {
-        event.preventDefault();
-        this.props.changeHistory(this.props.currentUser.user.username, this.props.match.params.housing_id)
-    };
 
     render(){
         let {housings, currentUser, removeHousings} = this.props;
@@ -61,15 +56,6 @@ class SingleHousing extends Component {
                                     </div>
                                 </div>
                             )}
-                            <form onSubmit={this.handleLike}>
-                                <button type={"submit"}
-                                        className={"btn btn-success"}
-                                        style={{"marginTop": 10}}
-                                        disabled={false}
-                                >
-                                    Like it!
-                                </button>
-                            </form>
                         </ul>
                         {(h.positive_comment || h.neutral_comment || h.negative_comment || h.overall_comment) && (
                             <div>
@@ -115,4 +101,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, {fetchSingleHousing, removeHousings, changeHistory})(SingleHousing);
+export default connect(mapStateToProps, {fetchSingleHousing, removeHousings})(SingleHousing);
