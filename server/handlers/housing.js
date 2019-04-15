@@ -58,6 +58,7 @@ exports.createHousing = function (req, res, next) {
                 if (hfErr){
                     return next(hfErr);
                 }else{
+                    console.log("successfully added a house");
                     return res.status(200).json(hfResult);
                 }
             });
@@ -77,7 +78,7 @@ exports.getHousing = function (req, res, next) {
     let findSingleHouseWithFeatureWithSentiment =
         `(select * 
         from ${findSingleHouseWithFeature}
-        Join Sentiment
+        Left Join Sentiment
         on Sentiment.sentiment_housing_id=singleHouse.housing_id) as singleHouseSentiment`;
     let commentWithUsername =
         `(select * 

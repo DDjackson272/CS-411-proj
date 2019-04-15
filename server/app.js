@@ -27,7 +27,7 @@ app.get("/api/housing", function (req, res, next) {
     let findHousingWithRating =
         "(SELECT * " +
         "FROM Housing " +
-        "JOIN Sentiment " +
+        "LEFT JOIN Sentiment " +
         "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
     let findDetailedHousing =
         `SELECT * 
@@ -65,7 +65,7 @@ app.get("/api/housing/search/:keyword", function(req, res, next){
     let findHousingWithRating =
         "(SELECT * " +
         "FROM Housing " +
-        "JOIN Sentiment " +
+        "LEFT JOIN Sentiment " +
         "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
     let findDetailedHousing =
         `(SELECT * 
@@ -115,7 +115,7 @@ app.get("/api/housing/:username/recommend", function(req, res, next){
     let findHousingWithRating =
         "(SELECT * " +
         "FROM Housing " +
-        "JOIN Sentiment " +
+        "LEFT JOIN Sentiment " +
         "ON housing_id=Sentiment.sentiment_housing_id) as HousingSentiment";
     let findDetailedHousing =
         `(SELECT * 

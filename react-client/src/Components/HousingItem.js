@@ -10,7 +10,7 @@ const HousingItem = ({
         <div className="img-thumbnail housing-item">
             <img src={img_url} style={{"width": "100%"}} alt={housing_name}/>
             <div className={"caption"}>
-                {housing_name}, {overall_comment}
+                {housing_name}, {overall_comment || "Average"}
             </div>
             <div style={{"padding": "10px 20px 10px 20px"}}>
                 <Link to={`/user/${housing_username}/housing/${housing_id}`}
