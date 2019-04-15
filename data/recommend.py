@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import pymysql
 import numpy as np
 import pandas as pd
