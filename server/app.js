@@ -9,7 +9,19 @@ const activityRoutes = require("./routes/activity");
 const bodyParser = require('body-parser');
 const db = require("./models/index");
 const PORT = 81;
-
+const exec = require('child_process').exec;
+// var arg1 = 'hello'
+// var arg2 = 'jzhou'
+// exec('python py_test.py '+ arg1+' '+arg2+' ',function(error,stdout,stderr){
+//     if(stdout.length >1){
+//         console.log('you offer args:',stdout);
+//     } else {
+//         console.log('you don\'t offer args');
+//     }
+//     if(error) {
+//         console.info('stderr : '+stderr);
+//     }
+// });
 app.set("view engine", "ejs");
 app.use(cors());
 app.use(bodyParser.json());
@@ -166,7 +178,13 @@ app.post("/api/user/:username/add/:housing_id", function(req, res, next){
                             message: err.message
                         })
                     } else {
-                        return res.status(200).json(results)
+                        exec('cd ../data; python3.6 recommend.py',function(error){
+                            if(error) {
+                                return next(error);
+                            } else {
+                                return res.status(200).json(results);
+                            }
+                        });
                     }
                 })
             }
