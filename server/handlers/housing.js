@@ -74,15 +74,20 @@ exports.getHousing = function (req, res, next) {
         Join HousingFeature
         On housing_id=housing_feature_housing_id
         where housing_id=${req.params.housing_id}) as singleHouse`;
+    let findSingleHouseWithFeatureWithSentiment =
+        `(select * 
+        from ${findSingleHouseWithFeature}
+        Join Sentiment
+        on Sentiment.sentiment_housing_id=singleHouse.housing_id) as singleHouseSentiment`;
     let commentWithUsername =
         `(select * 
         from Comment join User 
         on Comment.comment_user_id=User.user_id 
         where comment_housing_id=${req.params.housing_id}) as commentUser`;
     let findHousingComment = `select *
-    from ${findSingleHouseWithFeature} 
+    from ${findSingleHouseWithFeatureWithSentiment} 
     left join ${commentWithUsername}
-    on singleHouse.housing_id=commentUser.comment_housing_id;`;
+    on singleHouseSentiment.housing_id=commentUser.comment_housing_id;`;
 
     db.query(findUser, function (err, results) {
         if (err) {
@@ -119,26 +124,42 @@ exports.deleteHousing = function (req, res, next) {
     WHERE housing_feature_housing_id=${req.params.housing_id};`;
     let deleteComment = `DELETE FROM Comment WHERE comment_housing_id=${req.params.housing_id};`;
     let deleteHousing = `DELETE FROM Housing WHERE housing_id=${req.params.housing_id};`;
+    let deleteHistory = `DELETE FROM History WHERE history_housing_id=${req.params.housing_id};`;
+    let deleteSentiment = `DELETE FROM Sentiment WHERE sentiment_housing_id=${req.params.housing_id};`;
 
     // delete housing features first
     db.query(deleteHousingFeature, function(hfError){
         if (hfError){
             return next(hfError)
         } else {
-            // delete the relevant comment then
-            db.query(deleteComment, function(cError){
-                if (cError){
-                    return next(cError)
+            // delete sentiment then
+            db.query(deleteSentiment, function(sError){
+                if(sError){
+                    return next(sError)
                 } else {
-                    // lastly delete the house.
-                    db.query(deleteHousing, function (error) {
-                        if (error) {
-                            return next(error);
+                    // delete visited history then
+                    db.query(deleteHistory, function(hError){
+                        if (hError){
+                            return next(hError)
                         } else {
-                            return next({
-                                status: 200,
-                                message: "Successfully deleted a house!"
-                            })
+                            // delete the relevant comment then
+                            db.query(deleteComment, function(cError){
+                                if (cError){
+                                    return next(cError)
+                                } else {
+                                    // lastly delete the house.
+                                    db.query(deleteHousing, function (error) {
+                                        if (error) {
+                                            return next(error);
+                                        } else {
+                                            return next({
+                                                status: 200,
+                                                message: "Successfully deleted a house!"
+                                            })
+                                        }
+                                    });
+                                }
+                            });
                         }
                     });
                 }

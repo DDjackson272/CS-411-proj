@@ -1,9 +1,28 @@
 import pymysql
 import csv
+import random
 from passlib.hash import bcrypt
 
+INITIAL_DATA_PATH = "./initial"
+
+def gen_history_csv():
+    history_tuple_list = list()
+    # number of user, initially 18
+    for i in range(1, 19):
+        # number of housing, initially 20
+        for j in range(1,21):
+            visited_house_id = random.randint(1, 10)
+            if visited_house_id <= 5:
+                history_tuple_list.append((i, j))
+    
+    with open(INITIAL_DATA_PATH+"/history.csv", "w") as csv_file:
+        writer = csv.writer(csv_file, delimiter=",")
+        for tup in history_tuple_list:
+            writer.writerow([tup[0]] + [tup[1]])
+
 def drop_all_tables(conn):
-    drop_list = ["Comment", "Recommend", "Housing", "Activity", "User", "HousingFeature"]
+    drop_list = ["Comment", "Recommend", "Housing", "Activity", "User", 
+    "HousingFeature", "History", "Sentiment"]
     cur = conn.cursor()
     for item in drop_list:
         drop_query = "drop table %s;" % item
@@ -81,8 +100,28 @@ def create_all_tables(conn):
     "FOREIGN KEY (housing_feature_housing_id) REFERENCES Housing (housing_id)"+\
     ");"
 
+    query_history = "create table History (" +\
+    "history_id int NOT NULL AUTO_INCREMENT,"+\
+    "history_user_id int NOT NULL,"+\
+    "history_housing_id int NOT NULL,"+\
+    "PRIMARY KEY (history_id), "+\
+    "FOREIGN KEY (history_user_id) REFERENCES User (user_id),"+\
+    "FOREIGN KEY (history_housing_id) REFERENCES Housing (housing_id)"+\
+    ");"
+
+    query_sentiment = "create table Sentiment ("+\
+    "sentiment_id int NOT NULL AUTO_INCREMENT, "+\
+    "sentiment_housing_id int NOT NULL, "+\
+    "positive_comment int NOT NULL, " +\
+    "neutral_comment int NOT NULL, "+\
+    "negative_comment int NOT NULL, "+\
+    "overall_comment varchar(255) NOT NULL, "+\
+    "PRIMARY KEY (sentiment_id), "+\
+    "FOREIGN KEY (sentiment_housing_id) REFERENCES Housing (housing_id)"+\
+    ");"
+
     query_list = [query_user, query_housing, query_activity, 
-    query_comment, query_recommend, query_housing_feature]
+    query_comment, query_recommend, query_housing_feature, query_history, query_sentiment]
 
     for item in query_list:
         cur.execute(item)
@@ -98,6 +137,7 @@ def main():
         passwd='CS411!!!',
         db='cs411proj')
 
+    gen_history_csv()
     drop_all_tables(conn)
     create_all_tables(conn)
 
@@ -111,7 +151,7 @@ def main():
     # )
 
     # add User to db
-    with open("./user.csv", 'r', encoding="utf-8") as csvfile:
+    with open(INITIAL_DATA_PATH+"/user.csv", 'r', encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile)
         cur = conn.cursor()
         for row in reader:
@@ -128,7 +168,7 @@ def main():
     print("User insertion done!")
 
     # add housing to db
-    with open("./housing.csv", 'r', encoding="utf-8") as csvfile:
+    with open(INITIAL_DATA_PATH+"/housing.csv", 'r', encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile)
         cur = conn.cursor()
         for row in reader:
@@ -148,7 +188,7 @@ def main():
     print("Housing insertion done!")
 
     # add comment to db
-    with open("./comment.csv", 'r', encoding="utf-8") as csvfile:
+    with open(INITIAL_DATA_PATH+"/comment.csv", 'r', encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile)
         cur = conn.cursor()
         for row in reader:
@@ -164,7 +204,7 @@ def main():
 
 
     # add housing_feature to db
-    with open("./housing_feature.csv", 'r', encoding="utf-8") as csvfile:
+    with open(INITIAL_DATA_PATH+"/housing_feature.csv", 'r', encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile)
         cur = conn.cursor()
         for row in reader:
@@ -178,6 +218,37 @@ def main():
             cur.execute(query)
     conn.commit()
     print("Housing feature insertion done!")
+
+    # add history to db
+    with open(INITIAL_DATA_PATH+"/history.csv", 'r', encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile)
+        cur = conn.cursor()
+        for row in reader:
+            history_user_id = row[0]
+            history_housing_id = row[1]
+            query = 'insert into History (history_user_id, history_housing_id) '\
+            'values ("%s", "%s")' % (int (history_user_id), int(history_housing_id))
+            cur.execute(query)
+    conn.commit()
+    print("History insertion done!")
+
+    # add sentiment to db
+    with open(INITIAL_DATA_PATH+"/sentiment.csv", 'r', encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile)
+        cur = conn.cursor()
+        for row in reader:
+            sentiment_housing_id = row[0]
+            positive_comment = row[1]
+            neutral_comment = row[2]
+            negative_comment = row[3]
+            overall_comment = row[4]
+            query = 'insert into Sentiment (sentiment_housing_id, positive_comment, '\
+            'neutral_comment, negative_comment, overall_comment) values (%s, %s, %s, %s, "%s")' %\
+            (int(sentiment_housing_id), int(positive_comment), 
+                int(neutral_comment), int(negative_comment), overall_comment)
+            cur.execute(query)
+    conn.commit()
+    print("Sentiment insertion done!")
 
     conn.close()
 

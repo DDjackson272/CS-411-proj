@@ -59,6 +59,12 @@ class SingleHousing extends Component {
                         </ul>
                         <div>
                             Analysis from comments:
+                            <ul>
+                                <li>Positive Feedback: {h.positive_comment}</li>
+                                <li>Neutral Feedback: {h.neutral_comment}</li>
+                                <li>Negative Feedback: {h.negative_comment}</li>
+                                <li>Overall rating: {h.overall_comment}</li>
+                            </ul>
                         </div>
                     </div>
                 )}
