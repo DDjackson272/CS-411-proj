@@ -7,7 +7,7 @@ from get_feature import get_data_from_db, get_feature_db
 
 FILE_PATH = "./FromDB"
 INITIAL_DATA_PATH = "./initial"
-CLUSTER_NUM = 1
+CLUSTER_NUM = 2
 
 
 def k_means_recommendation():
@@ -21,7 +21,7 @@ def k_means_recommendation():
         username = user_table[user_table["user_id"] == user]["username"].tolist()[0]
         train_user_data = np.array(train_data[train_data['history_user_id'] == user][
                                        ["housing_type", "parking", "cooking", "large_bed"]])
-        k_means_user = KMeans(n_clusters=CLUSTER_NUM).fit(train_user_data)
+        k_means_user = KMeans(n_clusters=min(CLUSTER_NUM,train_user_data.shape[0])).fit(train_user_data)
         user_favorite_type[username] = np.round(k_means_user.cluster_centers_).tolist()
 
     for user in user_favorite_type:
