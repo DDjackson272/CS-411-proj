@@ -1,21 +1,21 @@
 const mysql = require('mysql');
 
 // Connect to local database
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "CS411!!!",
-    database: "cs411proj",
-    port: "3306"
-});
+// const connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "CS411!!!",
+//     database: "cs411proj",
+//     port: "3306"
+// });
 
 // Connect to aws-rds
-// var connection = mysql.createConnection({
-//     host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
-//     user : 'tutorial_user',
-//     database : 'sample',
-//     password : 'Zhe12345!'
-// });
+var connection = mysql.createConnection({
+    host : 'tutorial-db-web.cjb5il7njevi.us-east-2.rds.amazonaws.com',
+    user : 'tutorial_user',
+    database : 'sample',
+    password : 'Zhe12345!'
+});
 
 connection.connect(function(err){
     if(err) {
