@@ -1,4 +1,5 @@
 const db = require("../models");
+const exec = require('child_process').exec;
 
 // /api/user/:username/housing
 exports.showHousing = function (req, res, next) {
@@ -58,6 +59,14 @@ exports.createHousing = function (req, res, next) {
                 if (hfErr){
                     return next(hfErr);
                 }else{
+                    exec('cd ../data; python3.6 recommend.py', function (error) {
+                        if (error) {
+                            return next(error);
+                        } else {
+                            console.log("run python recommendation script!");
+                            return res.status(200).json(results);
+                        }
+                    });
                     console.log("successfully added a house");
                     return res.status(200).json(hfResult);
                 }
@@ -159,6 +168,14 @@ exports.deleteHousing = function (req, res, next) {
                                                 if (error) {
                                                     return next(error);
                                                 } else {
+                                                    exec('cd ../data; python3.6 recommend.py', function (error) {
+                                                        if (error) {
+                                                            return next(error);
+                                                        } else {
+                                                            console.log("run python recommendation script!");
+                                                            return res.status(200).json(results);
+                                                        }
+                                                    });
                                                     return next({
                                                         status: 200,
                                                         message: "Successfully deleted a house!"
@@ -221,6 +238,14 @@ exports.updateHousing = function (req, res, next) {
                             if(hfError){
                                 return next(hfError)
                             } else {
+                                exec('cd ../data; python3.6 recommend.py', function (error) {
+                                    if (error) {
+                                        return next(error);
+                                    } else {
+                                        console.log("run python recommendation script!");
+                                        return res.status(200).json(results);
+                                    }
+                                });
                                 return next({
                                     status: 200,
                                     message: "Successfully modify a house!"
