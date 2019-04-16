@@ -64,11 +64,10 @@ exports.createHousing = function (req, res, next) {
                             return next(error);
                         } else {
                             console.log("run python recommendation script!");
-                            return res.status(200).json(results);
+                            console.log("successfully added a house");
+                            return res.status(200).json(hfResult);
                         }
                     });
-                    console.log("successfully added a house");
-                    return res.status(200).json(hfResult);
                 }
             });
         }
@@ -173,13 +172,12 @@ exports.deleteHousing = function (req, res, next) {
                                                             return next(error);
                                                         } else {
                                                             console.log("run python recommendation script!");
-                                                            return res.status(200).json(results);
+                                                            return next({
+                                                                status: 200,
+                                                                message: "Successfully deleted a house!"
+                                                            })
                                                         }
                                                     });
-                                                    return next({
-                                                        status: 200,
-                                                        message: "Successfully deleted a house!"
-                                                    })
                                                 }
                                             });
                                         }
@@ -243,13 +241,12 @@ exports.updateHousing = function (req, res, next) {
                                         return next(error);
                                     } else {
                                         console.log("run python recommendation script!");
-                                        return res.status(200).json(results);
+                                        return next({
+                                            status: 200,
+                                            message: "Successfully modify a house!"
+                                        })
                                     }
                                 });
-                                return next({
-                                    status: 200,
-                                    message: "Successfully modify a house!"
-                                })
                             }
                         });
                     }
