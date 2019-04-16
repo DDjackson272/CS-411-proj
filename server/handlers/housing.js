@@ -167,16 +167,9 @@ exports.deleteHousing = function (req, res, next) {
                                                 if (error) {
                                                     return next(error);
                                                 } else {
-                                                    exec('cd ../data; python3.6 recommend.py', function (error) {
-                                                        if (error) {
-                                                            return next(error);
-                                                        } else {
-                                                            console.log("run python recommendation script!");
-                                                            return next({
-                                                                status: 200,
-                                                                message: "Successfully deleted a house!"
-                                                            })
-                                                        }
+                                                    return next({
+                                                        status: 200,
+                                                        message: "Successfully deleted a house!"
                                                     });
                                                 }
                                             });
