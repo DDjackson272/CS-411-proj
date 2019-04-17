@@ -51,9 +51,7 @@ class NavSignedIn extends React.Component {
 									color: "transparent"
 								}}
 								dropdownList={[
-									"Profile",
 									"New Housing",
-									"New Activities",
 									"Log Out"
 								]}
 								onClick={(event)=> {

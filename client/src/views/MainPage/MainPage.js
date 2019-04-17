@@ -16,6 +16,7 @@ import NavSignedIn from "../NavBar/NavSignedIn.js";
 import SignCard from "../SignCard/SignCard.js";
 import {authUser, logout} from "../../store/actions/auth";
 import {removeError} from "../../store/actions/errors";
+import { fetchHouses, postNewHouse } from "../../store/actions/houses";
 
 class MainPage extends React.Component {
 	constructor(props) {
@@ -72,6 +73,31 @@ class MainPage extends React.Component {
 		this.props.removeError();
 	}
 
+	handleNewHousing = () => {
+		const newHouse = {
+			address: "Detail Address",
+			city: "City",
+			housing_name: "House Name",
+			img_url: "ImageURL",
+			housing_type: "House Type",
+			parking: false,
+			cooking: false,
+			large_bed: false,
+			description: "Description",
+			positive_comment: 0,
+			neutral_comment: 0,
+			negative_comment: 0,
+			overall_comment: ""
+		}
+		this.props.postNewHouse(newHouse)
+			.then(res => {
+				if (!res) {
+					this.props.fetchHouses();
+					this.props.history.push("/hotel");
+				}
+			})
+	}
+
 	render() {
 		const { classes, currentUser, errors } = this.props;
 		let navBar = null;
@@ -83,6 +109,7 @@ class MainPage extends React.Component {
 		else {
 			navBar = <NavSignedIn 
 						onLogOutBtnClick={this.onLogOutBtnClick}
+						handleNewHousing={this.handleNewHousing}
 					/>;
 		}
 		return (
@@ -120,4 +147,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default withStyles(mainPage)(connect(mapStateToProps, {authUser, logout, removeError})(MainPage));
+export default withStyles(mainPage)(connect(mapStateToProps, {authUser, logout, removeError, fetchHouses, postNewHouse})(MainPage));
