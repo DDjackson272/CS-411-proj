@@ -66,20 +66,6 @@ def create_all_tables(conn):
                     "FOREIGN KEY (housing_username) REFERENCES User (username)" + \
                     ");"
 
-    query_activity = "create table Activity (" + \
-                     "activity_id int NOT NULL AUTO_INCREMENT," + \
-                     "activity_name varchar(255) NOT NULL," + \
-                     "username varchar(255) NOT NULL," + \
-                     "address varchar(255) NOT NULL," + \
-                     "city varchar(255) NOT NULL," + \
-                     "type varchar(255) NOT NULL," + \
-                     "description varchar(1024) NOT NULL," + \
-                     "date DATE NOT NULL," + \
-                     "img_url varchar(1024) NOT NULL," + \
-                     "PRIMARY KEY (activity_id), " + \
-                     "FOREIGN KEY (username) REFERENCES User (username)" + \
-                     ");"
-
     query_comment = "create table Comment (" + \
                     "comment_id int NOT NULL AUTO_INCREMENT," + \
                     "comment_housing_id int NOT NULL, " + \
@@ -128,6 +114,20 @@ def create_all_tables(conn):
                       "PRIMARY KEY (sentiment_id), " + \
                       "FOREIGN KEY (sentiment_housing_id) REFERENCES Housing (housing_id)" + \
                       ");"
+
+    query_activity = "create table Activity (" + \
+                     "activity_id int NOT NULL AUTO_INCREMENT," + \
+                     "activity_name varchar(255) NOT NULL," + \
+                     "username varchar(255) NOT NULL," + \
+                     "address varchar(255) NOT NULL," + \
+                     "city varchar(255) NOT NULL," + \
+                     "type varchar(255) NOT NULL," + \
+                     "description varchar(1024) NOT NULL," + \
+                     "date DATE NOT NULL," + \
+                     "img_url varchar(1024) NOT NULL," + \
+                     "PRIMARY KEY (activity_id), " + \
+                     "FOREIGN KEY (username) REFERENCES User (username)" + \
+                     ");"
 
     query_list = [query_user, query_housing, query_activity,
                   query_comment, query_recommend, query_housing_feature, query_history, query_sentiment]
