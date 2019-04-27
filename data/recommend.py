@@ -2,7 +2,6 @@ import pymysql
 import numpy as np
 import pandas as pd
 import csv
-from sklearn.cluster import KMeans
 from get_feature import get_data_from_db, get_feature_db
 
 FILE_PATH = "./FromDB"
@@ -13,16 +12,19 @@ CLUSTER_NUM = 2
 def k_means_recommendation():
     user_favorite_type = dict()
     user_favorite_housing = dict()
-    train_data = pd.read_csv(FILE_PATH + "/TrainingTable.csv")
-    user_table = pd.read_csv(FILE_PATH + "/User.csv")[["user_id", "username"]]
+
     reference_house = pd.read_csv(FILE_PATH + "/FinalHousingFeature.csv")
-    user_list = list(set(train_data['history_user_id'].tolist()))
-    for user in user_list:
-        username = user_table[user_table["user_id"] == user]["username"].tolist()[0]
-        train_user_data = np.array(train_data[train_data['history_user_id'] == user][
-                                       ["housing_type", "parking", "cooking", "large_bed"]])
-        k_means_user = KMeans(n_clusters=min(CLUSTER_NUM,train_user_data.shape[0])).fit(train_user_data)
-        user_favorite_type[username] = np.round(k_means_user.cluster_centers_).tolist()
+
+    with open(FILE_PATH + "/classes.csv", "r") as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            user_id = row[0]
+            favorite_class = row[2]
+            try:
+                if favorite_class not in user_favorite_type[user_id]:
+                    user_favorite_type[user_id].append(favorite_class)
+            except KeyError:
+                user_favorite_type[user_id] = [favorite_class]
 
     for user in user_favorite_type:
         for value in user_favorite_type[user]:
